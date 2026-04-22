@@ -13,23 +13,13 @@
     </span>
 
     <h2 class="focus__title" data-appear data-appear-delay="100">
-      <span data-lang="en">Dona.<br /><em>She reads what you write.</em></span>
-      <span data-lang="fr">Dona.<br /><em>Elle lit ce que tu écris.</em></span>
+      <span data-lang="en">Dona.<br /><em>An AI that reads your log.</em></span>
+      <span data-lang="fr">Dona.<br /><em>Une IA qui lit ton carnet.</em></span>
     </h2>
 
-    <!-- Pull-quote — un extrait de la voix de Dona, mesurée, factuelle.
-         Le seul "visuel" : une citation encadrée par des filets. -->
-    <figure class="focus__quote" data-appear data-appear-delay="240">
-      <blockquote>
-        <span data-lang="en">Three days held. Tomorrow proves it.</span>
-        <span data-lang="fr">Trois jours tenus. Demain le confirmera.</span>
-      </blockquote>
-      <figcaption>— Dona</figcaption>
-    </figure>
-
-    <p class="focus__lede" data-appear data-appear-delay="380">
-      <span data-lang="en">A measured voice. Answers in context. Doesn't push.</span>
-      <span data-lang="fr">Une voix tempérée. Répond en contexte. Ne pousse pas.</span>
+    <p class="focus__lede" data-appear data-appear-delay="240">
+      <span data-lang="en">A measured voice. Answers in context. Doesn't flatter.</span>
+      <span data-lang="fr">Une voix tempérée. Répond en contexte. Ne flatte pas.</span>
     </p>
 
     <!-- Tarifs Dona — table centrée, séparée par un filet ink. -->
@@ -57,8 +47,8 @@
       </ul>
 
       <p class="focus__plan-body">
-        <span data-lang="en">7-day trial — no card.</span>
-        <span data-lang="fr">7 jours d'essai — sans carte.</span>
+        <span data-lang="en">Subscribe from inside the app.</span>
+        <span data-lang="fr">Abonnement depuis l'app.</span>
       </p>
       <p class="focus__plan-edu">
         <span data-lang="en"><strong>Students · −40%</strong> — from 1,19 €/mo.</span>
@@ -110,37 +100,6 @@
     margin: 0;
   }
   .focus__title em { font-style: italic; color: var(--mute); }
-
-  /* --- Pull-quote — la voix de Dona --- */
-  .focus__quote {
-    margin: 0;
-    padding: clamp(1.5rem, 3vw, 2.25rem) clamp(2rem, 4vw, 3rem);
-    max-width: 40ch;
-    border-block: 1px solid var(--ink);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-3);
-  }
-  .focus__quote blockquote {
-    margin: 0;
-    font-family: var(--font-display);
-    font-style: italic;
-    font-weight: 200;
-    font-size: clamp(1.5rem, 2vw + 0.75rem, 2.25rem);
-    line-height: 1.25;
-    letter-spacing: var(--tracking-tight);
-    color: var(--ink);
-    text-align: center;
-  }
-  .focus__quote figcaption {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    font-weight: 500;
-    letter-spacing: var(--tracking-caps);
-    text-transform: uppercase;
-    color: var(--mute);
-  }
 
   /* --- Lede --- */
   .focus__lede {
