@@ -1,0 +1,55 @@
+---
+interface Props {
+  href?: string;
+  kind?: "solid" | "ghost";
+  class?: string;
+}
+const { href, kind = "solid", class: klass = "" } = Astro.props;
+const Tag = href ? "a" : "button";
+---
+
+<Tag
+  class:list={["mbtn", `mbtn--${kind}`, klass]}
+  href={href}
+  data-magnetic
+>
+  <span class="mbtn__inner" data-magnetic-inner>
+    <slot />
+  </span>
+</Tag>
+
+<style>
+  .mbtn {
+    --pad-x: var(--space-8);
+    --pad-y: var(--space-4);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--pad-y) var(--pad-x);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    border-radius: var(--radius);
+    transition: background var(--dur-fast) var(--ease-out),
+                color var(--dur-fast) var(--ease-out);
+    will-change: transform;
+  }
+
+  .mbtn--solid {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .mbtn--solid:hover { background: var(--paper); color: var(--ink); box-shadow: var(--ring); }
+
+  .mbtn--ghost {
+    background: transparent;
+    color: var(--ink);
+    box-shadow: var(--ring);
+  }
+  .mbtn--ghost:hover { background: var(--ink); color: var(--paper); }
+
+  .mbtn__inner { display: inline-block; will-change: transform; }
+</style>

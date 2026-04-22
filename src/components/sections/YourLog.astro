@@ -1,0 +1,223 @@
+---
+// § 05 — Your log
+// Mockup d'une page carnet qui se remplit ligne par ligne au scroll.
+
+const entries = [
+  {
+    en: "Focus session · 4 × 25 min. Done.",
+    fr: "Séance focus · 4 × 25 min. Done.",
+  },
+  { en: "10 push-ups. 10 pull-ups. Done.", fr: "10 pompes. 10 tractions. Fait." },
+  { en: "Read 14 pages. Stopped in time.", fr: "Lu 14 pages. Arrêté à temps." },
+  { en: "Called M. Picked up the file.", fr: "Appelé M. Repris le dossier." },
+  { en: "Didn't touch sugar.", fr: "Pas touché au sucre." },
+  { en: "Wrote 600 words. Didn't reread.", fr: "Écrit 600 mots. Pas relu." },
+];
+---
+
+<section class="log" data-log>
+  <div class="log__grid">
+
+    <div class="log__text">
+      <span class="eyebrow">Your log</span>
+
+      <h2 class="log__title">
+        <span data-lang="en">No excuse.<br /><em>No reframing.</em></span>
+        <span data-lang="fr">Sans excuse.<br /><em>Sans reformulation.</em></span>
+      </h2>
+
+      <p class="log__lede">
+        <span data-lang="en">What you did today. Black on white. You reread tomorrow morning — and you know.</span>
+        <span data-lang="fr">Ce que tu as fait aujourd'hui. Noir sur blanc. Tu relis demain matin — et tu sais.</span>
+      </p>
+
+      <p class="log__meta">
+        <span data-lang="en">One free field, one line per action.<br />No tags, no feelings.</span>
+        <span data-lang="fr">Un champ libre, une ligne par action.<br />Pas de tag, pas d'état d'âme.</span>
+      </p>
+    </div>
+
+    <div class="log__page" data-log-page>
+      <div class="log__page-head">
+        <span class="log__date">
+          <span data-lang="en">Monday — April 20, 2026</span>
+          <span data-lang="fr">Lundi — 20 avril 2026</span>
+        </span>
+        <span class="log__num">Nº 142</span>
+      </div>
+
+      <div class="log__rule" aria-hidden="true"></div>
+
+      <ul class="log__entries" data-log-entries>
+        {entries.map((e) => (
+          <li class="log__entry" data-log-entry>
+            <span class="log__mark" aria-hidden="true">×</span>
+            <span class="log__entry-text">
+              <span data-lang="en">{e.en}</span>
+              <span data-lang="fr">{e.fr}</span>
+            </span>
+          </li>
+        ))}
+        <li class="log__entry log__entry--cursor" data-log-entry aria-hidden="true">
+          <span class="log__mark">×</span>
+          <span class="log__caret">_</span>
+        </li>
+      </ul>
+
+      <div class="log__foot">
+        <span class="log__sig">
+          <span data-lang="en">— 22 : 47 · signed : you</span>
+          <span data-lang="fr">— 22 : 47 · signé : toi</span>
+        </span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  .log {
+    background: var(--paper);
+    border-top: 1px solid var(--rule);
+    padding-block: clamp(6rem, 10vw, 10rem);
+  }
+
+  .log__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(3rem, 7vw, 7rem);
+    align-items: center;
+    max-width: var(--col-max);
+    margin: 0 auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* --- Text column --- */
+  .log__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+    max-width: 36rem;
+  }
+
+  .log__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 5.5vw + 0.5rem, 5.5rem);
+    font-weight: 200;
+    line-height: 0.96;
+    letter-spacing: var(--tracking-tight);
+  }
+  .log__title em { font-style: italic; color: var(--mute); }
+
+  .log__lede {
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 1vw + 0.75rem, 1.6rem);
+    line-height: 1.35;
+    color: var(--mute);
+    font-style: italic;
+    max-width: 32ch;
+  }
+
+  .log__meta {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--mute);
+    line-height: 1.6;
+  }
+
+  /* --- Page mockup --- */
+  .log__page {
+    position: relative;
+    background: var(--paper-sunk);
+    border: 1px solid var(--rule-strong);
+    padding: clamp(1.5rem, 2vw + 0.75rem, 2.5rem);
+    max-width: 520px;
+    justify-self: center;
+    width: 100%;
+    font-family: var(--font-display);
+  }
+
+  .log__page-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--space-4);
+  }
+
+  .log__date,
+  .log__num {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+
+  .log__rule {
+    height: 1px;
+    background: var(--rule);
+    margin: var(--space-4) 0 var(--space-6);
+  }
+
+  .log__entries {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .log__entry {
+    display: flex;
+    gap: var(--space-3);
+    font-size: clamp(1rem, 0.5vw + 0.85rem, 1.2rem);
+    line-height: 1.45;
+    font-style: italic;
+    color: var(--ink);
+    opacity: 0;
+    will-change: opacity, transform;
+  }
+
+  .log__mark {
+    font-family: var(--font-mono);
+    font-style: normal;
+    font-size: var(--text-sm);
+    color: var(--mute);
+    line-height: 1.6;
+    flex-shrink: 0;
+    user-select: none;
+  }
+
+  .log__entry-text { flex: 1; }
+
+  .log__entry--cursor .log__caret {
+    display: inline-block;
+    animation: log-blink 1s steps(2, end) infinite;
+    font-style: normal;
+  }
+  @keyframes log-blink {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0; }
+  }
+
+  .log__foot {
+    margin-top: var(--space-8);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--rule);
+  }
+  .log__sig {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+
+  /* Reduced motion : entrées visibles d'entrée */
+  @media (prefers-reduced-motion: reduce) {
+    .log__entry { opacity: 1; }
+  }
+
+  @media (max-width: 860px) {
+    .log__grid { grid-template-columns: 1fr; }
+  }
+</style>

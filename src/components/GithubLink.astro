@@ -1,0 +1,82 @@
+---
+// GithubLink.astro — mini badge GitHub fixed top-left.
+// Remplace l'URL par celle de ton repo quand tu l'as.
+interface Props {
+  href?: string;
+}
+const { href = "https://github.com/" } = Astro.props;
+---
+
+<a
+  class="gh"
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Voir le code source sur GitHub"
+>
+  <svg class="gh__mark" viewBox="0 0 24 24" aria-hidden="true">
+    <path
+      fill="currentColor"
+      d="M12 .5C5.65.5.5 5.65.5 12a11.5 11.5 0 0 0 7.86 10.91c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.52-1.32-1.28-1.67-1.28-1.67-1.04-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.95.1-.74.4-1.25.73-1.53-2.56-.29-5.25-1.28-5.25-5.72 0-1.26.45-2.3 1.19-3.11-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a10.98 10.98 0 0 1 5.78 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.85 1.18 3.11 0 4.45-2.7 5.43-5.27 5.71.41.35.77 1.04.77 2.1v3.11c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12C23.5 5.65 18.35.5 12 .5Z"
+    />
+  </svg>
+  <span class="gh__label">GitHub</span>
+  <span class="gh__arrow" aria-hidden="true">↗</span>
+</a>
+
+<style>
+  .gh {
+    position: fixed;
+    top: var(--space-4);
+    right: var(--space-4);
+    z-index: var(--z-ui);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    color: var(--paper);
+    background: var(--ink);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    transition:
+      background var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out),
+      transform var(--dur-press) var(--ease-out);
+  }
+
+  .gh:hover {
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: var(--ring);
+  }
+  .gh:active { transform: scale(0.97); }
+
+  .gh__mark {
+    width: 18px;
+    height: 18px;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .gh__label { line-height: 1; }
+
+  .gh__arrow {
+    font-size: 0.8em;
+    opacity: 0.6;
+    transition: transform var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
+  }
+  .gh:hover .gh__arrow {
+    transform: translate(2px, -2px);
+    opacity: 1;
+  }
+
+  /* Mobile : juste l'icône, pas le label */
+  @media (max-width: 540px) {
+    .gh { padding: var(--space-2); gap: 0; }
+    .gh__label, .gh__arrow { display: none; }
+  }
+</style>

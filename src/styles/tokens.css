@@ -1,0 +1,83 @@
+/* ============================================================================
+   TOKENS — Manager
+   Noir/blanc strict, OKLCH papier-encre, échelle 4pt, typo éditoriale.
+   ============================================================================ */
+
+:root {
+  /* --- Encre & papier ---------------------------------------------------- */
+  --ink:            oklch(14% 0.01 80);
+  --ink-pure:       oklch(0% 0 0);              /* logo uniquement */
+  --paper:          oklch(98% 0.005 80);
+  --paper-sunk:     oklch(95% 0.007 80);
+  --mute:           oklch(42% 0.012 80);
+  --rule:           oklch(14% 0.01 80 / 0.14);
+  --rule-strong:    oklch(14% 0.01 80 / 0.32);
+
+  /* Accent unique, parcimonieux (tampon rouge carnet). Éteint par défaut. */
+  /* --stamp:      oklch(38% 0.13 27); */
+
+  /* --- Typographie ------------------------------------------------------- */
+  --font-display:   "PP Editorial New", "Times New Roman", Georgia, serif;
+  --font-mono:      "PP Supply Mono", "JetBrains Mono", ui-monospace,
+                    SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Échelle fluide, perfect fourth (1.333) */
+  --text-xs:        0.75rem;     /* 12 — captions, tags */
+  --text-sm:        0.875rem;    /* 14 — body mono */
+  --text-base:      1rem;        /* 16 */
+  --text-lg:        1.125rem;    /* 18 */
+  --text-xl:        1.333rem;    /* 21 — lede */
+  --display-3:      clamp(1.75rem, 3.2vw + 1rem, 3rem);
+  --display-2:      clamp(2.5rem, 5vw + 1rem, 6rem);
+  --display-1:      clamp(3.5rem, 10vw + 1rem, 10.5rem);
+  --counter:        clamp(6rem, 22vw, 24rem);
+
+  --leading-display: 0.92;
+  --leading-tight:   1.08;
+  --leading-body:    1.5;
+  --tracking-tight:  -0.02em;
+  --tracking-mono:   0.01em;
+  --tracking-caps:   0.18em;
+
+  /* --- Espacement 4pt --------------------------------------------------- */
+  --space-1:   0.25rem;
+  --space-2:   0.5rem;
+  --space-3:   0.75rem;
+  --space-4:   1rem;
+  --space-6:   1.5rem;
+  --space-8:   2rem;
+  --space-12:  3rem;
+  --space-16:  4rem;
+  --space-24:  6rem;
+  --space-32:  8rem;
+  --space-48:  12rem;
+
+  /* --- Grille éditoriale ------------------------------------------------ */
+  --col-max:       84rem;       /* 1344 */
+  --col-narrow:    48rem;       /* 768 */
+  --gutter:        clamp(1rem, 3vw, 2.5rem);
+
+  /* --- Motion ----------------------------------------------------------- */
+  --dur-fast:   140ms;
+  --dur-base:   260ms;
+  --dur-slow:   880ms;
+  --dur-press:  140ms;
+  --ease-out:       cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out:    cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-editorial: cubic-bezier(0.2, 0.7, 0.1, 1);
+
+  /* --- Divers ----------------------------------------------------------- */
+  --radius:    0;
+  --ring:      0 0 0 1px var(--ink);
+  --z-grain:   60;
+  --z-cursor:  70;
+  --z-ui:      50;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 0ms;
+    --dur-base: 0ms;
+    --dur-slow: 0ms;
+  }
+}

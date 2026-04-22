@@ -1,0 +1,212 @@
+---
+// § 03 — The work
+// Scroll horizontal dans pin vertical : intro + 5 outils.
+// Fallback reduced-motion : stack vertical, natural scroll.
+
+const panels = [
+  {
+    n: "Nº 01 / 05",
+    titleEn: "Count.",
+    titleFr: "Compter.",
+    bodyEn: "Day 1. Day 2. Day 1 031. Manager holds the series for you. You extend it.",
+    bodyFr: "Jour 1. Jour 2. Jour 1 031. Manager tient la série pour toi. Tu la prolonges.",
+  },
+  {
+    n: "Nº 02 / 05",
+    titleEn: "Focus.",
+    titleFr: "Focaliser.",
+    bodyEn: "A torus. Twenty-five minutes. Five. Again. The rest can wait.",
+    bodyFr: "Un tore. Vingt-cinq minutes. Cinq minutes. Recommence. Le reste peut attendre.",
+  },
+  {
+    n: "Nº 03 / 05",
+    titleEn: "Plan.",
+    titleFr: "Planifier.",
+    bodyEn: "Tomorrow is prepared the night before. Manager slices the day into clean blocks.",
+    bodyFr: "Demain se prépare la veille. Manager découpe la journée en tranches propres.",
+  },
+  {
+    n: "Nº 04 / 05",
+    titleEn: "Log.",
+    titleFr: "Consigner.",
+    bodyEn: "What you did. Black on white. No excuse, no reframing.",
+    bodyFr: "Ce que tu as fait. Noir sur blanc. Pas d'excuse, pas de reformulation.",
+  },
+  {
+    n: "Nº 05 / 05",
+    titleEn: "Dona.",
+    titleFr: "Dona.",
+    bodyEn: "The coach that reads your log. Dona Plus — 2,49 €/mo.",
+    bodyFr: "Le coach qui lit ton carnet. Dona Plus — 2,49 €/mois.",
+  },
+];
+---
+
+<section class="work" data-work>
+  <div class="work__pin">
+    <div class="work__indicator" data-work-indicator aria-hidden="true">
+      <span data-work-current>01</span>
+      <span class="work__indicator-sep">/</span>
+      <span>{panels.length.toString().padStart(2, "0")}</span>
+    </div>
+    <div class="work__track" data-work-track>
+
+      <div class="work__item work__intro">
+        <span class="eyebrow">The work</span>
+        <h2 class="work__lede">
+          <span data-lang="en">Five tools.<br /><em>One purpose.</em></span>
+          <span data-lang="fr">Cinq outils.<br /><em>Un seul but.</em></span>
+        </h2>
+        <p class="work__sub">
+          <span data-lang="en">Hold the line. Day by day.</span>
+          <span data-lang="fr">Tenir. Jour après jour.</span>
+        </p>
+      </div>
+
+      {panels.map((p) => (
+        <article class="work__item">
+          <span class="work__num">{p.n}</span>
+          <span class="work__bar" aria-hidden="true"></span>
+          <h3 class="work__title">
+            <span data-lang="en">{p.titleEn}</span>
+            <span data-lang="fr">{p.titleFr}</span>
+          </h3>
+          <p class="work__body">
+            <span data-lang="en">{p.bodyEn}</span>
+            <span data-lang="fr">{p.bodyFr}</span>
+          </p>
+        </article>
+      ))}
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .work {
+    position: relative;
+    background: var(--paper);
+    border-top: 1px solid var(--rule);
+    overflow: hidden;
+  }
+
+  .work__pin {
+    position: relative;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+  }
+
+  /* --- Indicator 01/05 --- */
+  .work__indicator {
+    position: absolute;
+    top: clamp(1.5rem, 4vw, 2.5rem);
+    right: clamp(1.5rem, 4vw, 2.5rem);
+    z-index: 2;
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-1);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--mute);
+    font-variant-numeric: tabular-nums;
+  }
+  .work__indicator [data-work-current] { color: var(--ink); }
+  .work__indicator-sep { opacity: 0.5; padding-inline: var(--space-1); }
+
+  .work__track {
+    display: flex;
+    align-items: stretch;
+    gap: clamp(4rem, 9vw, 9rem);
+    padding-inline: clamp(6vw, 12vw, 18vw);
+    will-change: transform;
+  }
+
+  .work__item {
+    flex: 0 0 auto;
+    width: min(78vw, 540px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-6);
+  }
+
+  .work__num {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+
+  .work__bar {
+    width: clamp(3rem, 5vw, 4.5rem);
+    height: 3px;
+    background: var(--ink);
+    display: block;
+  }
+
+  .work__title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 7.5rem);
+    font-weight: 200;
+    line-height: 0.95;
+    letter-spacing: var(--tracking-tight);
+    color: var(--ink);
+  }
+
+  .work__body {
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 0.75rem + 0.9vw, 1.65rem);
+    line-height: 1.3;
+    max-width: 22ch;
+    color: var(--mute);
+    font-style: italic;
+  }
+
+  /* --- Intro panel --- */
+  .work__intro {
+    width: min(82vw, 640px);
+  }
+
+  .work__lede {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 7vw, 7rem);
+    font-weight: 200;
+    line-height: 0.95;
+    letter-spacing: var(--tracking-tight);
+  }
+  .work__lede em { font-style: italic; color: var(--mute); }
+
+  .work__sub {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--mute);
+    letter-spacing: var(--tracking-tight);
+    margin-top: var(--space-2);
+  }
+
+  /* --- Reduced motion fallback : stack vertical, pas de pin --- */
+  @media (prefers-reduced-motion: reduce) {
+    .work__pin { height: auto; padding-block: var(--space-16); }
+    .work__track {
+      flex-direction: column;
+      gap: var(--space-16);
+      padding: 0 var(--gutter);
+    }
+    .work__item,
+    .work__intro {
+      width: 100%;
+      max-width: var(--col-narrow);
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 540px) {
+    .work__item { width: 85vw; }
+  }
+</style>

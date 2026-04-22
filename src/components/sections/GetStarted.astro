@@ -1,0 +1,369 @@
+---
+// § 06 — Get started / Commencer
+// Bilingue via data-lang. Liens download tirés de l'API GitHub au build.
+
+import { getLatestRelease } from "~/lib/releases";
+
+const { version: VERSION, winUrl: WIN_URL, debUrl: DEB_URL } = await getLatestRelease();
+const AUR_PKG = "manager-bin";
+const GH_RELEASES = "https://github.com/JAuxance/manager-releases";
+---
+
+<section class="gs" id="get-started" data-gs>
+  <div class="gs__head">
+    <span class="eyebrow">
+      <span data-lang="en">Get started</span>
+      <span data-lang="fr">Commencer</span>
+    </span>
+
+    <h2 class="gs__title">
+      <span data-lang="en">Four steps. <em>No account.</em></span>
+      <span data-lang="fr">Quatre étapes. <em>Aucun compte.</em></span>
+    </h2>
+
+    <p class="gs__lede">
+      <span data-lang="en">Local-first desktop app. Your log lives on your machine.</span>
+      <span data-lang="fr">App desktop local-first. Ton carnet vit sur ta machine.</span>
+    </p>
+  </div>
+
+  <ol class="gs__steps">
+
+    <!-- Step 01 — Download -->
+    <li class="gs__step">
+      <div class="gs__step-head">
+        <span class="gs__num">Nº 01</span>
+        <h3 class="gs__step-title">
+          <span data-lang="en">Download</span>
+          <span data-lang="fr">Télécharger</span>
+        </h3>
+      </div>
+
+      <div class="gs__dls">
+        <a class="gs__dl gs__dl--primary" href={WIN_URL}>
+          <span class="gs__dl-plat">Windows</span>
+          <span class="gs__dl-ext">.exe · v{VERSION}</span>
+        </a>
+
+        <a class="gs__dl" href={DEB_URL}>
+          <span class="gs__dl-plat">Linux</span>
+          <span class="gs__dl-ext">.deb · v{VERSION}</span>
+        </a>
+
+        <div class="gs__dl gs__dl--code" aria-label="Arch Linux AUR">
+          <span class="gs__dl-plat">Arch · AUR</span>
+          <code class="gs__dl-cmd">yay -S {AUR_PKG}</code>
+        </div>
+
+        <div class="gs__dl gs__dl--soon">
+          <span class="gs__dl-plat">macOS</span>
+          <span class="gs__dl-ext" data-lang="en">Coming soon</span>
+          <span class="gs__dl-ext" data-lang="fr">Bientôt</span>
+        </div>
+      </div>
+    </li>
+
+    <!-- Step 02 — Install -->
+    <li class="gs__step">
+      <div class="gs__step-head">
+        <span class="gs__num">Nº 02</span>
+        <h3 class="gs__step-title">
+          <span data-lang="en">Install</span>
+          <span data-lang="fr">Installer</span>
+        </h3>
+      </div>
+      <p class="gs__step-body">
+        <span data-lang="en">Native executable. No account. No cloud required. Built on Tauri + Rust.</span>
+        <span data-lang="fr">Exécutable natif. Aucun compte. Aucun cloud requis. Basé sur Tauri + Rust.</span>
+      </p>
+    </li>
+
+    <!-- Step 03 — First launch -->
+    <li class="gs__step">
+      <div class="gs__step-head">
+        <span class="gs__num">Nº 03</span>
+        <h3 class="gs__step-title">
+          <span data-lang="en">Start the series</span>
+          <span data-lang="fr">Commencer la série</span>
+        </h3>
+      </div>
+      <p class="gs__step-body">
+        <span data-lang="en">First launch creates your log. Day&nbsp;1 is today. The rest counts itself.</span>
+        <span data-lang="fr">La première ouverture crée ton carnet. Jour&nbsp;1 = aujourd'hui. Le reste se compte tout seul.</span>
+      </p>
+    </li>
+
+    <!-- Step 04 — Dona -->
+    <li class="gs__step">
+      <div class="gs__step-head">
+        <span class="gs__num">Nº 04</span>
+        <h3 class="gs__step-title">
+          <span data-lang="en">Dona <em>(optional)</em></span>
+          <span data-lang="fr">Dona <em>(optionnel)</em></span>
+        </h3>
+      </div>
+      <p class="gs__step-body">
+        <span data-lang="en">AI coach that reads your log. <strong>Dona Plus</strong> — 2,49&nbsp;€/mo, 500 messages, 7-day free trial. No card required.</span>
+        <span data-lang="fr">Coach IA qui lit ton carnet. <strong>Dona Plus</strong> — 2,49&nbsp;€/mois, 500 messages, 7 jours d'essai gratuit. Sans carte bancaire.</span>
+      </p>
+      <p class="gs__step-fine" data-lang="en">Subscribe from inside the app (Personalize → Dona).</p>
+      <p class="gs__step-fine" data-lang="fr">Abonnement depuis l'app (Personnaliser → Dona).</p>
+    </li>
+
+  </ol>
+
+  <!-- FAQ -->
+  <div class="gs__faq">
+    <h3 class="gs__faq-title">
+      <span data-lang="en">Four questions</span>
+      <span data-lang="fr">Quatre questions</span>
+    </h3>
+
+    <dl class="gs__faq-list">
+      <div class="gs__faq-item">
+        <dt data-lang="en">Where are my entries stored?</dt>
+        <dt data-lang="fr">Où sont stockées mes entrées ?</dt>
+        <dd data-lang="en">Locally, in a SQLite file in your app data folder. Nothing leaves your machine unless you enable Dona (AI) — messages then go to the provider.</dd>
+        <dd data-lang="fr">Localement, dans un fichier SQLite de ton dossier app data. Rien ne sort de ta machine, sauf si tu actives Dona (IA) — les messages vont alors au provider.</dd>
+      </div>
+
+      <div class="gs__faq-item">
+        <dt data-lang="en">Can I sync across devices?</dt>
+        <dt data-lang="fr">Puis-je synchroniser entre plusieurs machines ?</dt>
+        <dd data-lang="en">Optional. Supabase sync is opt-in; without it, Manager runs fully offline.</dd>
+        <dd data-lang="fr">Optionnel. La sync Supabase est opt-in ; sans elle, Manager fonctionne 100&nbsp;% hors-ligne.</dd>
+      </div>
+
+      <div class="gs__faq-item">
+        <dt data-lang="en">Can I export my data?</dt>
+        <dt data-lang="fr">Puis-je exporter mes données ?</dt>
+        <dd data-lang="en">Yes. Your entries live in a SQLite file — portable, readable, yours to move.</dd>
+        <dd data-lang="fr">Oui. Tes entrées vivent dans un fichier SQLite — portable, lisible, à toi.</dd>
+      </div>
+
+      <div class="gs__faq-item">
+        <dt data-lang="en">macOS when?</dt>
+        <dt data-lang="fr">macOS quand ?</dt>
+        <dd data-lang="en">Coming. Follow <a href={GH_RELEASES} target="_blank" rel="noopener noreferrer">releases</a> for updates.</dd>
+        <dd data-lang="fr">Bientôt. Suis les <a href={GH_RELEASES} target="_blank" rel="noopener noreferrer">releases</a> pour l'avancée.</dd>
+      </div>
+    </dl>
+  </div>
+
+</section>
+
+<style>
+  .gs {
+    position: relative;
+    background: var(--paper);
+    border-top: 1px solid var(--rule);
+    padding: clamp(5rem, 8vw, 8rem) var(--gutter);
+  }
+
+  /* --- Head --- */
+  .gs__head {
+    max-width: var(--col-max);
+    margin: 0 auto clamp(3rem, 5vw, 5rem);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .gs__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 5.5vw + 0.5rem, 5.5rem);
+    font-weight: 200;
+    line-height: 0.96;
+    letter-spacing: var(--tracking-tight);
+    max-width: 18ch;
+  }
+  .gs__title em { font-style: italic; color: var(--mute); }
+  .gs__lede {
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 1vw + 0.75rem, 1.4rem);
+    font-style: italic;
+    color: var(--mute);
+    max-width: 40ch;
+  }
+
+  /* --- Steps --- */
+  .gs__steps {
+    max-width: var(--col-max);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .gs__step {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: clamp(2rem, 4vw, 4rem);
+    padding: clamp(2rem, 4vw, 3rem) 0;
+    border-top: 1px solid var(--rule);
+    align-items: start;
+  }
+  .gs__step:last-of-type { border-bottom: 1px solid var(--rule); }
+
+  .gs__step-head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .gs__num {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+  .gs__step-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 2.5vw + 0.75rem, 2.5rem);
+    font-weight: 200;
+    line-height: 1;
+    letter-spacing: var(--tracking-tight);
+  }
+  .gs__step-title em { font-style: italic; color: var(--mute); font-size: 0.75em; }
+
+  .gs__step-body {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 0.75vw + 0.9rem, 1.35rem);
+    line-height: 1.45;
+    color: var(--ink);
+  }
+  .gs__step-body strong { font-weight: 400; color: var(--ink); }
+  .gs__step-fine {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--mute);
+    margin-top: var(--space-4);
+    letter-spacing: 0.02em;
+  }
+
+  /* --- Download buttons (step 01) --- */
+  .gs__dls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .gs__dl {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--space-4) var(--space-5, 1.25rem);
+    text-decoration: none;
+    color: var(--ink);
+    background: transparent;
+    box-shadow: var(--ring);
+    transition:
+      background var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out),
+      transform var(--dur-press) var(--ease-out);
+    will-change: transform;
+    min-width: 160px;
+  }
+  .gs__dl:hover { background: var(--ink); color: var(--paper); }
+  .gs__dl:active { transform: scale(0.97); }
+
+  .gs__dl--primary {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .gs__dl--primary:hover { background: var(--paper); color: var(--ink); }
+
+  .gs__dl--soon {
+    color: var(--mute);
+    box-shadow: inset 0 0 0 1px var(--rule-strong);
+    cursor: not-allowed;
+  }
+  .gs__dl--soon:hover { background: transparent; color: var(--mute); transform: none; }
+
+  .gs__dl--code {
+    background: var(--paper-sunk);
+    box-shadow: inset 0 0 0 1px var(--rule);
+    cursor: default;
+  }
+  .gs__dl--code:hover { background: var(--paper-sunk); color: var(--ink); transform: none; }
+
+  .gs__dl-plat {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+  }
+  .gs__dl-ext {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    opacity: 0.65;
+  }
+  .gs__dl-cmd {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    color: var(--ink);
+    background: transparent;
+    padding: 0;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  /* --- FAQ --- */
+  .gs__faq {
+    max-width: var(--col-max);
+    margin: clamp(4rem, 7vw, 6rem) auto 0;
+  }
+  .gs__faq-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2vw + 0.5rem, 2rem);
+    font-weight: 200;
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: var(--space-8);
+  }
+
+  .gs__faq-list {
+    display: flex;
+    flex-direction: column;
+  }
+  .gs__faq-item {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: clamp(2rem, 4vw, 4rem);
+    padding: var(--space-6) 0;
+    border-top: 1px solid var(--rule);
+  }
+  .gs__faq-item:last-child { border-bottom: 1px solid var(--rule); }
+
+  .gs__faq-item dt {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 0.75vw + 0.9rem, 1.3rem);
+    font-weight: 400;
+    line-height: 1.3;
+  }
+  .gs__faq-item dd {
+    font-family: var(--font-display);
+    font-size: var(--text-base);
+    line-height: 1.5;
+    color: var(--mute);
+    font-style: italic;
+    margin: 0;
+  }
+  .gs__faq-item dd a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* --- Mobile --- */
+  @media (max-width: 720px) {
+    .gs__step,
+    .gs__faq-item {
+      grid-template-columns: 1fr;
+      gap: var(--space-4);
+    }
+    .gs__dl { min-width: 0; flex: 1 1 140px; }
+  }
+</style>

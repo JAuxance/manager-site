@@ -1,0 +1,65 @@
+---
+import "~/styles/tokens.css";
+import "~/styles/reset.css";
+import "~/styles/fonts.css";
+import "~/styles/base.css";
+import "~/styles/utilities.css";
+
+import Grain from "~/components/Grain.astro";
+import Cursor from "~/components/Cursor.astro";
+import GithubLink from "~/components/GithubLink.astro";
+import LangToggle from "~/components/LangToggle.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Manager — Day counter, focus timer, journal.",
+  description = "Une app pour se tenir — jour après jour.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light only" />
+    <meta name="theme-color" content="#f6f5f1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    {/* Préchargement fontes — à décommenter dès que les .woff2 sont déposés dans /public/fonts/ */}
+    {/* <link rel="preload" href="/fonts/PPEditorialNew-Ultralight.woff2" as="font" type="font/woff2" crossorigin /> */}
+    {/* <link rel="preload" href="/fonts/PPSupplyMono-Regular.woff2"    as="font" type="font/woff2" crossorigin /> */}
+  </head>
+
+  <body>
+    <a href="#main" class="skip-link">
+      <span data-lang="en">Skip to content</span>
+      <span data-lang="fr">Aller au contenu</span>
+    </a>
+
+    <Grain />
+    <Cursor />
+    <div class="lang-fixed">
+      <LangToggle variant="solid" />
+    </div>
+    <GithubLink href="https://github.com/JAuxance" />
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <script>
+      import "~/scripts/main";
+    </script>
+  </body>
+</html>

@@ -1,0 +1,64 @@
+/* ============================================================================
+   FONTS — PP Editorial New (display) + PP Supply Mono (body)
+
+   1. Dépose les .woff2 dans /public/fonts/
+   2. Décommente les blocs ci-dessous
+   3. Décommente les <link rel="preload"> dans src/layouts/Base.astro
+   4. POLISH ANTI-CLS : ajuste les valeurs `size-adjust` ci-dessous pour matcher
+      les métriques du fallback (Georgia / ui-monospace). Outil :
+      https://screenspan.net/fallback — entre PP Editorial / PP Supply,
+      tu obtiens les % à coller. Sans ça, la typo "saute" au chargement.
+
+   Tant que c'est désactivé, les fallbacks système (Georgia + ui-monospace)
+   prennent le relais via les tokens --font-display et --font-mono.
+   ============================================================================ */
+
+/*
+@font-face {
+  font-family: "PP Editorial New";
+  src: local("PP Editorial New"),
+       url("/fonts/PPEditorialNew-Ultralight.woff2") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+  size-adjust: 100%; * ajuster après mesure
+  ascent-override: 100%; * idem
+  descent-override: 100%; * idem
+}
+
+@font-face {
+  font-family: "PP Editorial New";
+  src: local("PP Editorial New Italic"),
+       url("/fonts/PPEditorialNew-UltralightItalic.woff2") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PP Editorial New";
+  src: local("PP Editorial New"),
+       url("/fonts/PPEditorialNew-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PP Supply Mono";
+  src: local("PP Supply Mono"),
+       url("/fonts/PPSupplyMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "PP Supply Mono";
+  src: local("PP Supply Mono Medium"),
+       url("/fonts/PPSupplyMono-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+*/

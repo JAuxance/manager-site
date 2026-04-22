@@ -1,0 +1,50 @@
+---
+interface Props {
+  class?: string;
+  animated?: boolean;  // si true, expose les hooks data- pour hero.ts
+  size?: number;       // px
+}
+const { class: klass = "", animated = false, size } = Astro.props;
+
+const style = size ? `width:${size}px;height:${size}px;` : undefined;
+---
+
+<svg
+  class:list={["logo", klass]}
+  style={style}
+  viewBox="0 0 1024 1024"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label="Manager"
+  data-logo={animated ? "" : null}
+>
+  <title>Manager</title>
+
+  <g class="logo__bars" fill="var(--ink-pure, #000)">
+    <rect data-logo-bar={animated ? "" : null} x="288" y="272" width="72" height="480" />
+    <rect data-logo-bar={animated ? "" : null} x="416" y="272" width="72" height="480" />
+    <rect data-logo-bar={animated ? "" : null} x="544" y="272" width="72" height="480" />
+    <rect data-logo-bar={animated ? "" : null} x="672" y="272" width="72" height="480" />
+  </g>
+
+  <line
+    class="logo__diag"
+    data-logo-diag={animated ? "" : null}
+    x1="232" y1="680"
+    x2="792" y2="420"
+    stroke="var(--ink-pure, #000)"
+    stroke-width="48"
+    stroke-linecap="butt"
+  />
+</svg>
+
+<style>
+  .logo {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+  .logo__bars rect { transform-box: fill-box; }
+  .logo__diag { will-change: stroke-dashoffset; }
+</style>
