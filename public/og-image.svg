@@ -23,8 +23,8 @@
         font-family="'DejaVu Sans Mono', 'Liberation Mono', monospace"
         font-size="18" fill="#6b6357" letter-spacing="4.5" font-weight="500">FREE · DESKTOP</text>
 
-  <!-- Logo (4 bars + diagonal), scaled 1024→144 -->
-  <g transform="translate(60, 160) scale(0.141)">
+  <!-- Logo — mark réduit, aligné avec le wordmark -->
+  <g transform="translate(60, 200) scale(0.098)">
     <rect x="288" y="272" width="72" height="480" fill="#211f18"/>
     <rect x="416" y="272" width="72" height="480" fill="#211f18"/>
     <rect x="544" y="272" width="72" height="480" fill="#211f18"/>
@@ -32,17 +32,17 @@
     <line x1="232" y1="680" x2="792" y2="420" stroke="#211f18" stroke-width="48" stroke-linecap="butt"/>
   </g>
 
-  <!-- Wordmark — big italic serif -->
-  <text x="232" y="370"
+  <!-- Wordmark — décalé à gauche + taille adoucie pour respirer à droite -->
+  <text x="170" y="385"
         font-family="'DejaVu Serif', 'Liberation Serif', 'Times New Roman', serif"
         font-style="italic" font-weight="300"
-        font-size="210" fill="#211f18" letter-spacing="-4">Manager.</text>
+        font-size="196" fill="#211f18" letter-spacing="-3">Manager.</text>
 
-  <!-- Tagline — nouvelle baseline stoïque -->
+  <!-- Tagline — baseline stoïque, flush left -->
   <text x="60" y="470"
         font-family="'DejaVu Serif', 'Liberation Serif', 'Times New Roman', serif"
         font-style="italic" font-weight="300"
-        font-size="46" fill="#6b6357" letter-spacing="-0.5">Count the days. Keep the log.</text>
+        font-size="44" fill="#6b6357" letter-spacing="-0.5">Count the days. Keep the log.</text>
 
   <!-- Hairline bottom -->
   <line x1="60" y1="540" x2="1140" y2="540" stroke="#211f18" stroke-width="1" opacity="0.85"/>
