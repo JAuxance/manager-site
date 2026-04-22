@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://managerladger.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://managerladger.com/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://managerladger.com/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://managerladger.com/" />
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://managerladger.com/mentions-legales</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  <url>
+    <loc>https://managerladger.com/confidentialite</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
+  </url>
+</urlset>

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Paper background -->
+  <rect width="1200" height="630" fill="#f7f5f0"/>
+
+  <!-- Subtle grain -->
+  <defs>
+    <filter id="grain" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.14 0"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="630" filter="url(#grain)" opacity="0.55"/>
+
+  <!-- Top hairline -->
+  <line x1="60" y1="60" x2="1140" y2="60" stroke="#211f18" stroke-width="1" opacity="0.85"/>
+
+  <!-- Eyebrow (top-left) -->
+  <text x="60" y="95" font-family="'DejaVu Sans Mono', 'Liberation Mono', monospace"
+        font-size="18" fill="#211f18" letter-spacing="4.5" font-weight="500">MANAGERLADGER.COM</text>
+
+  <!-- Version / Free chip (top-right) -->
+  <text x="1140" y="95" text-anchor="end"
+        font-family="'DejaVu Sans Mono', 'Liberation Mono', monospace"
+        font-size="18" fill="#6b6357" letter-spacing="4.5" font-weight="500">FREE · DESKTOP</text>
+
+  <!-- Logo (4 bars + diagonal), scaled 1024→144 -->
+  <g transform="translate(60, 160) scale(0.141)">
+    <rect x="288" y="272" width="72" height="480" fill="#211f18"/>
+    <rect x="416" y="272" width="72" height="480" fill="#211f18"/>
+    <rect x="544" y="272" width="72" height="480" fill="#211f18"/>
+    <rect x="672" y="272" width="72" height="480" fill="#211f18"/>
+    <line x1="232" y1="680" x2="792" y2="420" stroke="#211f18" stroke-width="48" stroke-linecap="butt"/>
+  </g>
+
+  <!-- Wordmark — big italic serif -->
+  <text x="232" y="370"
+        font-family="'DejaVu Serif', 'Liberation Serif', 'Times New Roman', serif"
+        font-style="italic" font-weight="300"
+        font-size="210" fill="#211f18" letter-spacing="-4">Manager.</text>
+
+  <!-- Tagline line (mute italic serif) -->
+  <text x="60" y="470"
+        font-family="'DejaVu Serif', 'Liberation Serif', 'Times New Roman', serif"
+        font-style="italic" font-weight="300"
+        font-size="40" fill="#6b6357" letter-spacing="-0.5">Day counter. Focus timer. Journal. Dona.</text>
+
+  <!-- Hairline bottom -->
+  <line x1="60" y1="540" x2="1140" y2="540" stroke="#211f18" stroke-width="1" opacity="0.85"/>
+
+  <!-- Bottom meta left -->
+  <text x="60" y="585"
+        font-family="'DejaVu Sans Mono', 'Liberation Mono', monospace"
+        font-size="17" fill="#211f18" letter-spacing="4" font-weight="500">HOLD THE LINE · DAY AFTER DAY</text>
+
+  <!-- Bottom meta right -->
+  <text x="1140" y="585" text-anchor="end"
+        font-family="'DejaVu Sans Mono', 'Liberation Mono', monospace"
+        font-size="17" fill="#6b6357" letter-spacing="4" font-weight="500">WINDOWS · LINUX · LOCAL-FIRST</text>
+</svg>

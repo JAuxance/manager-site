@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /auth-done.html
+
+Sitemap: https://managerladger.com/sitemap.xml

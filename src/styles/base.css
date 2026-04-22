@@ -20,6 +20,7 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-stopped { overflow: clip; }
 
 body {
+  position: relative; /* ancre les badges top-left/right en absolute */
   min-height: 100dvh;
   font-size: var(--text-base);
   overflow-x: clip;
@@ -62,9 +63,10 @@ html.has-custom-cursor * {
 html[lang="en"] [data-lang="fr"] { display: none; }
 html[lang="fr"] [data-lang="en"] { display: none; }
 
-/* Lang toggle fixed top-left (miroir du GitHub badge) */
+/* Lang toggle top-left — absolute (pas fixed) : reste avec le hero,
+   sort du viewport au scroll comme le reste du contenu. */
 .lang-fixed {
-  position: fixed;
+  position: absolute;
   top: var(--space-4);
   left: var(--space-4);
   z-index: var(--z-ui);

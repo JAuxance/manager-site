@@ -14,12 +14,54 @@ import ScrollProgress from "~/components/ScrollProgress.astro";
 interface Props {
   title?: string;
   description?: string;
+  /** Relative OG/Twitter image path under /public. Absolute URL is built from Astro.site. */
+  ogImage?: string;
+  /** Set to true on pages that shouldn't be indexed (e.g. 404). */
+  noindex?: boolean;
 }
 
 const {
   title = "Manager — Day counter, focus timer, journal.",
-  description = "Une app pour se tenir — jour après jour.",
+  description = "Free desktop app to hold the line day after day. Day counter, Pomodoro focus timer, daily journal, and Dona — an AI coach that reads your log. Windows & Linux, local-first.",
+  ogImage = "/og-image.png",
+  noindex = false,
 } = Astro.props;
+
+const SITE_URL = Astro.site ?? new URL("https://managerladger.com");
+const canonical = new URL(Astro.url.pathname, SITE_URL).href;
+const ogImageUrl = new URL(ogImage, SITE_URL).href;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      name: "Manager",
+      url: SITE_URL.href,
+      applicationCategory: "ProductivityApplication",
+      operatingSystem: "Windows, Linux",
+      description:
+        "Local-first desktop productivity app: day counter, Pomodoro focus timer, daily journal, weekly schedule, progress charts, and Dona — an AI coach that reads your log.",
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "EUR",
+      },
+      author: {
+        "@type": "Person",
+        name: "JAuxance",
+        url: "https://github.com/JAuxance",
+      },
+      inLanguage: ["en", "fr"],
+    },
+    {
+      "@type": "WebSite",
+      name: "Manager",
+      url: SITE_URL.href,
+      inLanguage: ["en", "fr"],
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -29,17 +71,50 @@ const {
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light only" />
     <meta name="theme-color" content="#f6f5f1" />
+
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="author" content="JAuxance" />
+    <meta name="generator" content={Astro.generator} />
+    {noindex
+      ? <meta name="robots" content="noindex, nofollow" />
+      : <meta name="robots" content="index, follow, max-image-preview:large" />
+    }
+
+    <link rel="canonical" href={canonical} />
+    {/* One rendered page, two languages toggled client-side — advertise both locales at the same URL. */}
+    <link rel="alternate" hreflang="en" href={canonical} />
+    <link rel="alternate" hreflang="fr" href={canonical} />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
+
+    {/* Open Graph */}
+    <meta property="og:site_name" content="Manager" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:alt" content="Manager — Day counter, focus timer, journal, Dona. Free local-first desktop app." />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="fr_FR" />
+
+    {/* Twitter */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap.xml" />
 
     {/* Préchargement fontes — à décommenter dès que les .woff2 sont déposés dans /public/fonts/ */}
     {/* <link rel="preload" href="/fonts/PPEditorialNew-Ultralight.woff2" as="font" type="font/woff2" crossorigin /> */}
     {/* <link rel="preload" href="/fonts/PPSupplyMono-Regular.woff2"    as="font" type="font/woff2" crossorigin /> */}
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
 
   <body>
