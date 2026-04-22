@@ -1,0 +1,161 @@
+---
+import Base from "~/layouts/Base.astro";
+---
+
+<Base title="404 — Manager" description="Page introuvable.">
+  <section class="err">
+    <div class="err__inner">
+      <svg class="err__mark" viewBox="0 0 1024 1024" role="img" aria-label="Manager">
+        <title>Manager</title>
+        <g class="err__bars">
+          <rect x="288" y="272" width="72" height="480" />
+          <rect x="416" y="272" width="72" height="480" />
+          <rect x="544" y="272" width="72" height="480" />
+          <rect x="672" y="272" width="72" height="480" />
+        </g>
+        <line class="err__slash" x1="232" y1="680" x2="792" y2="420" />
+      </svg>
+
+      <span class="eyebrow err__eyebrow">
+        <span data-lang="en">404 · Not here</span>
+        <span data-lang="fr">404 · Pas ici</span>
+      </span>
+
+      <h1 class="err__title">
+        <span data-lang="en">Off the page.<br /><em>Begin again.</em></span>
+        <span data-lang="fr">Hors-page.<br /><em>Recommence.</em></span>
+      </h1>
+
+      <p class="err__sub">
+        <span data-lang="en">Whatever you were looking for isn't at this address.</span>
+        <span data-lang="fr">Ce que tu cherchais n'est pas à cette adresse.</span>
+      </p>
+
+      <a class="err__home" href="/">
+        <span data-lang="en">Back to Manager</span>
+        <span data-lang="fr">Retour à Manager</span>
+        <span class="err__arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .err {
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    padding: var(--gutter);
+    background: var(--paper);
+  }
+  .err__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(1.5rem, 3vw, 2.25rem);
+    max-width: 36rem;
+  }
+
+  .err__mark {
+    width: clamp(80px, 9vw, 116px);
+    height: auto;
+    color: var(--ink-pure);
+    overflow: visible;
+  }
+  .err__bars rect {
+    fill: currentColor;
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    transform: scaleY(0);
+    animation: err-bar 720ms var(--ease-editorial) forwards;
+  }
+  .err__bars rect:nth-child(1) { animation-delay: 120ms; }
+  .err__bars rect:nth-child(2) { animation-delay: 220ms; }
+  .err__bars rect:nth-child(3) { animation-delay: 320ms; }
+  .err__bars rect:nth-child(4) { animation-delay: 420ms; }
+  .err__slash {
+    stroke: currentColor;
+    stroke-width: 48;
+    stroke-linecap: butt;
+    fill: none;
+    stroke-dasharray: 700;
+    stroke-dashoffset: 700;
+    animation: err-slash 560ms cubic-bezier(0.7, 0, 0.2, 1) 620ms forwards;
+  }
+  @keyframes err-bar   { to { transform: scaleY(1); } }
+  @keyframes err-slash { to { stroke-dashoffset: 0; } }
+
+  .err__eyebrow {
+    opacity: 0;
+    animation: err-fade 620ms var(--ease-editorial) 900ms forwards;
+  }
+
+  .err__title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 5vw + 1rem, 5.5rem);
+    font-weight: 200;
+    line-height: 0.96;
+    letter-spacing: var(--tracking-tight);
+    margin: 0;
+    opacity: 0;
+    animation: err-fade 780ms var(--ease-editorial) 1020ms forwards;
+  }
+  .err__title em { font-style: italic; color: var(--mute); }
+
+  .err__sub {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 0.5vw + 0.9rem, 1.3rem);
+    color: var(--mute);
+    font-style: italic;
+    margin: 0;
+    opacity: 0;
+    animation: err-fade 620ms var(--ease-editorial) 1180ms forwards;
+  }
+
+  .err__home {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-6);
+    background: var(--ink);
+    color: var(--paper);
+    text-decoration: none;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    white-space: nowrap;
+    line-height: 1;
+    opacity: 0;
+    animation: err-fade 620ms var(--ease-editorial) 1320ms forwards;
+    transition:
+      background var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out),
+      transform var(--dur-press) var(--ease-out);
+  }
+  .err__home:hover {
+    background: var(--paper);
+    color: var(--ink);
+    box-shadow: var(--ring);
+  }
+  .err__home:hover .err__arrow { transform: translateX(4px); }
+  .err__home:active { transform: scale(0.97); }
+  .err__arrow { transition: transform var(--dur-base) var(--ease-editorial); }
+
+  @keyframes err-fade {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .err__bars rect, .err__slash,
+    .err__eyebrow, .err__title, .err__sub, .err__home {
+      animation: none;
+      opacity: 1;
+      transform: none;
+      stroke-dashoffset: 0;
+    }
+  }
+</style>

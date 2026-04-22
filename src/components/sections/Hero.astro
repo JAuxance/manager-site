@@ -14,14 +14,11 @@ const { winUrl: WIN_URL, debUrl: DEB_URL } = await getLatestRelease();
       <Logo animated class="hero__logo" />
     </div>
 
-    <a class="hero__start" href="#get-started" data-reveal-start>
-      <span class="hero__start-label">
-        <span data-lang="en">Get started</span>
-        <span data-lang="fr">Commencer</span>
-      </span>
-      <span class="hero__start-line" aria-hidden="true"></span>
-      <span class="hero__start-arrow" aria-hidden="true">↓</span>
-    </a>
+    <span class="hero__free" data-reveal-free aria-label="Free">
+      <span class="hero__free-dot" aria-hidden="true"></span>
+      <span data-lang="en">Free</span>
+      <span data-lang="fr">Gratuit</span>
+    </span>
 
     <div class="hero__actions" data-reveal-actions>
       <a class="hbtn hbtn--solid" href={WIN_URL} data-magnetic>
@@ -45,6 +42,15 @@ const { winUrl: WIN_URL, debUrl: DEB_URL } = await getLatestRelease();
         </span>
       </span>
     </div>
+
+    <a class="hero__start" href="#get-started" data-reveal-start>
+      <span class="hero__start-label">
+        <span data-lang="en">Get started</span>
+        <span data-lang="fr">Commencer</span>
+      </span>
+      <span class="hero__start-line" aria-hidden="true"></span>
+      <span class="hero__start-arrow" aria-hidden="true">↓</span>
+    </a>
   </div>
 
   <div class="hero__cue">
@@ -76,6 +82,20 @@ const { winUrl: WIN_URL, debUrl: DEB_URL } = await getLatestRelease();
     width: clamp(260px, 32vw, 460px);
     aspect-ratio: 1 / 1;
     will-change: transform;
+  }
+
+  /* Flash-guard : le HTML inline rend les barres + la diagonale à leur
+     position finale avant que le JS d'intro n'ait placé les offsets off-screen.
+     On les masque jusqu'à ce que hero.ts ajoute .is-ready sur le wrap. */
+  .hero__logo-wrap:not(.is-ready) :global([data-logo-bar]),
+  .hero__logo-wrap:not(.is-ready) :global([data-logo-diag]) {
+    opacity: 0;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__logo-wrap :global([data-logo-bar]),
+    .hero__logo-wrap :global([data-logo-diag]) {
+      opacity: 1;
+    }
   }
 
   /* --- Get started editorial link --- */
@@ -116,6 +136,38 @@ const { winUrl: WIN_URL, debUrl: DEB_URL } = await getLatestRelease();
   }
   .hero__start:hover .hero__start-arrow {
     transform: translateY(3px);
+  }
+
+  /* --- Free badge --- */
+  .hero__free {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--ink);
+    line-height: 1;
+    /* Annule une partie du gap du stage pour ne laisser qu'un petit espace
+       (~1.25rem) entre Free et les boutons Download. */
+    margin-bottom: calc(var(--space-6) - clamp(3rem, 7vw, 6rem));
+  }
+  .hero__free-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--ink);
+    display: inline-block;
+    animation: hero-free-pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes hero-free-pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50%      { transform: scale(1.35); opacity: 0.55; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__free-dot { animation: none; }
   }
 
   /* --- Download CTAs --- */

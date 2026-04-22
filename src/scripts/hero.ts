@@ -11,16 +11,51 @@ export function initHero(reduced: boolean) {
   const tagline = hero.querySelector<HTMLElement>("[data-reveal]");
   const actions = hero.querySelector<HTMLElement>("[data-reveal-actions]");
   const startCta = hero.querySelector<HTMLElement>("[data-reveal-start]");
+  const freeBadge = hero.querySelector<HTMLElement>("[data-reveal-free]");
+  // Badges fixed en dehors du Hero mais qui doivent arriver en même temps
+  // que les CTAs de l'intro.
+  const github = document.querySelector<HTMLElement>(".gh");
+  const langFixed = document.querySelector<HTMLElement>(".lang-fixed");
 
   if (tagline) splitIntoWords(tagline);
 
   if (reduced) {
     // Respecte prefers-reduced-motion : pas d'intro, pas de parallaxe.
+    // Le CSS @media prefers-reduced-motion ré-affiche les barres.
+    logoWrap?.classList.add("is-ready");
+    github?.classList.add("is-ready");
+    langFixed?.classList.add("is-ready");
     return;
   }
 
   // ------- États initiaux -------
-  gsap.set(bars, { transformOrigin: "50% 100%", scaleY: 0 });
+  // Chaque barre part au-delà du bord du viewport. On calcule un offset en
+  // CSS px qui garantit que même les barres intérieures (2, 3) — proches du
+  // centre à leur position finale — finissent hors-cadre au départ. Ce
+  // minimum est `innerWidth * 0.65` (avec un plancher de 850px pour les
+  // petits viewports). Les extérieures (1, 4) partent 200px plus loin encore
+  // pour préserver l'effet de convergence en serrage.
+  // Conversion CSS px → unité SVG via le ratio de rendu de l'SVG (viewBox
+  // 1024 vs largeur affichée).
+  const svgRect = svg?.getBoundingClientRect();
+  const pxPerUnit = svgRect && svgRect.width > 0 ? svgRect.width / 1024 : 0.4;
+  const nearPx = Math.max(window.innerWidth * 0.65, 850);
+  const farPx  = nearPx + 200;
+  const farU   = farPx / pxPerUnit;
+  const nearU  = nearPx / pxPerUnit;
+  const offsets = [-farU, -nearU, nearU, farU];
+
+  // Les barres démarrent transparentes ET hors-cadre. L'opacité se lève au
+  // fur et à mesure du mouvement — elles "se matérialisent" pendant la
+  // glissade, sans apparition brutale à l'entrée de viewport.
+  gsap.set(bars, { transformOrigin: "50% 100%", scaleY: 1, opacity: 0 });
+  bars.forEach((bar, i) => {
+    gsap.set(bar, { x: offsets[i] });
+  });
+  if (diag) gsap.set(diag, { opacity: 0 });
+
+  // Les offsets off-screen sont posés → on peut réafficher le wrap sans flash.
+  logoWrap?.classList.add("is-ready");
 
   let diagLen = 620;
   if (diag && typeof diag.getTotalLength === "function") {
@@ -42,26 +77,48 @@ export function initHero(reduced: boolean) {
   if (ctaBtns.length) gsap.set(ctaBtns, { y: 18, opacity: 0 });
 
   if (startCta) gsap.set(startCta, { y: 16, opacity: 0 });
+  if (freeBadge) gsap.set(freeBadge, { y: 12, opacity: 0 });
 
-  // ------- Timeline d'entrée — compressée (~1.6s) -------
-  const tl = gsap.timeline({ delay: 0.18 });
+  // Badges fixed — même départ que les CTAs du hero.
+  if (github) gsap.set(github, { y: -16, opacity: 0 });
+  if (langFixed) gsap.set(langFixed, { y: -16, opacity: 0 });
+  github?.classList.add("is-ready");
+  langFixed?.classList.add("is-ready");
+
+  // ------- Timeline d'entrée — bars depuis les bords -------
+  const tl = gsap.timeline({ delay: 0.2 });
+
+  // Les barres glissent depuis les bords du viewport. Stagger "edges" :
+  // extérieures (1, 4) partent en premier, intérieures (2, 3) suivent —
+  // convergence douce vers le centre. Ease `expo.out` pour une décélération
+  // longue et soyeuse (plutôt qu'un claquement).
+  // L'opacity monte en parallèle mais sur une ease différente (power2) et
+  // une durée plus courte, pour que les barres "se densifient" avant
+  // d'atteindre leur position finale — sensation de matérialisation.
+  tl.to(bars, {
+    x: 0,
+    duration: 1.35,
+    ease: "expo.out",
+    stagger: { each: 0.11, from: "edges" },
+  }, 0);
 
   tl.to(bars, {
-    scaleY: 1,
-    duration: 0.75,
-    ease: "expo.out",
-    stagger: 0.07,
-  });
+    opacity: 1,
+    duration: 0.95,
+    ease: "power2.out",
+    stagger: { each: 0.11, from: "edges" },
+  }, 0);
 
   if (diag) {
     tl.to(
       diag,
       {
         strokeDashoffset: 0,
-        duration: 0.7,
-        ease: "power3.out",
+        opacity: 1,
+        duration: 0.9,
+        ease: "power2.out",
       },
-      "-=0.55"
+      "-=0.7"
     );
   }
 
@@ -92,6 +149,21 @@ export function initHero(reduced: boolean) {
     );
   }
 
+  // Le badge "Free" arrive juste avant les CTAs download — petite avance
+  // pour que l'œil le voie puis descende sur le CTA.
+  if (freeBadge) {
+    tl.to(
+      freeBadge,
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.45,
+        ease: "expo.out",
+      },
+      "-=0.35"
+    );
+  }
+
   if (ctaBtns.length) {
     tl.to(
       ctaBtns,
@@ -102,35 +174,24 @@ export function initHero(reduced: boolean) {
         ease: "expo.out",
         stagger: 0.05,
       },
-      "-=0.35"
+      "-=0.2"
     );
   }
 
-  // ------- Parallaxe 3D souris -------
-  if (logoWrap && svg) {
-    gsap.set(svg, {
-      transformPerspective: 900,
-      transformOrigin: "center center",
-    });
-
-    // Z-stagger : chaque barre à une profondeur différente
-    bars.forEach((bar, i) => {
-      gsap.set(bar, { z: (i - 1.5) * 10 });
-    });
-
-    const rotX = gsap.quickTo(svg, "rotationX", { duration: 0.45, ease: "power3.out" });
-    const rotY = gsap.quickTo(svg, "rotationY", { duration: 0.45, ease: "power3.out" });
-
-    window.addEventListener(
-      "mousemove",
-      (e: MouseEvent) => {
-        const { innerWidth: w, innerHeight: h } = window;
-        const dx = (e.clientX / w - 0.5) * 2; // -1 → 1
-        const dy = (e.clientY / h - 0.5) * 2;
-        rotY(dx * 6);
-        rotX(-dy * 4);
+  // GitHub badge + LangToggle — descendent depuis le haut en parallèle des
+  // download CTAs. `<` signifie "démarre au même moment que le tween précédent".
+  const badges = [langFixed, github].filter((b): b is HTMLElement => !!b);
+  if (badges.length) {
+    tl.to(
+      badges,
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.55,
+        ease: "expo.out",
+        stagger: 0.08,
       },
-      { passive: true }
+      "<"
     );
   }
 }

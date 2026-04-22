@@ -76,6 +76,17 @@ html[lang="fr"] [data-lang="en"] { display: none; }
 }
 .lang-fixed:hover { background: oklch(from var(--ink) calc(l + 0.08) c h); }
 
+/* Flash-guard — cache les badges fixed en haut tant que hero.ts n'a pas
+   posé leur état initial (y: -16, opacity: 0) puis ajouté .is-ready.
+   Évite un flash à la position finale pendant le load. */
+.lang-fixed:not(.is-ready),
+.gh:not(.is-ready) {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .lang-fixed, .gh { opacity: 1 !important; }
+}
+
 /* Focus visible global — clavier uniquement */
 :focus { outline: none; }
 :focus-visible {

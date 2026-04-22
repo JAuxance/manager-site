@@ -37,6 +37,15 @@ export interface ReleaseInfo {
   stale: boolean;
 }
 
+export interface ReleaseEntry {
+  version: string;
+  tag: string;
+  date: string;           // ISO 8601
+  title: string;
+  body: string;           // notes brutes (markdown)
+  url: string;
+}
+
 interface GitHubAsset {
   name: string;
   browser_download_url: string;
@@ -44,18 +53,29 @@ interface GitHubAsset {
 
 interface GitHubRelease {
   tag_name: string;
+  name?: string;
+  published_at?: string;
+  body?: string;
   html_url: string;
   assets: GitHubAsset[];
+  draft?: boolean;
+  prerelease?: boolean;
 }
 
 let cached: Promise<ReleaseInfo> | null = null;
+let cachedList: Promise<ReleaseEntry[]> | null = null;
 
 export function getLatestRelease(): Promise<ReleaseInfo> {
   if (!cached) cached = fetchLatest();
   return cached;
 }
 
-async function fetchLatest(): Promise<ReleaseInfo> {
+export function getReleaseList(limit = 5): Promise<ReleaseEntry[]> {
+  if (!cachedList) cachedList = fetchList();
+  return cachedList.then((l) => l.slice(0, limit));
+}
+
+function buildHeaders(): Record<string, string> {
   const headers: Record<string, string> = {
     Accept: "application/vnd.github+json",
     "User-Agent": "manager-site-build",
@@ -63,9 +83,39 @@ async function fetchLatest(): Promise<ReleaseInfo> {
   };
   const token = process.env.GITHUB_TOKEN;
   if (token) headers.Authorization = `Bearer ${token}`;
+  return headers;
+}
 
+async function fetchList(): Promise<ReleaseEntry[]> {
   try {
-    const res = await fetch(API_URL, { headers });
+    const res = await fetch(
+      `https://api.github.com/repos/${REPO}/releases?per_page=10`,
+      { headers: buildHeaders() }
+    );
+    if (!res.ok) {
+      console.warn(`[releases] list HTTP ${res.status}`);
+      return [];
+    }
+    const data = (await res.json()) as GitHubRelease[];
+    return data
+      .filter((r) => !r.draft && !r.prerelease)
+      .map((r) => ({
+        version: r.tag_name.replace(/^v/, ""),
+        tag: r.tag_name,
+        date: r.published_at ?? "",
+        title: r.name?.trim() || r.tag_name,
+        body: (r.body ?? "").trim(),
+        url: r.html_url,
+      }));
+  } catch (err) {
+    console.warn(`[releases] list fetch failed`, err);
+    return [];
+  }
+}
+
+async function fetchLatest(): Promise<ReleaseInfo> {
+  try {
+    const res = await fetch(API_URL, { headers: buildHeaders() });
     if (!res.ok) {
       console.warn(`[releases] API HTTP ${res.status} — falling back to v${FALLBACK.version}`);
       return FALLBACK;

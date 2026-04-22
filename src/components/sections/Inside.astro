@@ -1,0 +1,299 @@
+---
+// § 4b — Inside
+// Galerie de screenshots réels de l'app. Chaque capture est encadrée dans un
+// "cadre éditorial" (rule sombre + meta mono caps), avec une légende italique
+// qui explique ce que l'écran fait. Le tout reveal au scroll en stagger.
+
+const screens = [
+  {
+    src: "/screenshots/dashboard.png",
+    n: "Nº 01",
+    titleEn: "The dashboard.",
+    titleFr: "Le dashboard.",
+    capEn: "Day count. Focus timer. Today's list. The three things that matter, on one surface.",
+    capFr: "Le compteur. Le focus. La liste du jour. Les trois choses qui comptent, sur une seule surface.",
+  },
+  {
+    src: "/screenshots/schedule.png",
+    n: "Nº 02",
+    titleEn: "The week, blocked.",
+    titleFr: "La semaine, bloquée.",
+    capEn: "Tomorrow is prepared the night before. Manager carves the day into clean blocks.",
+    capFr: "Demain se prépare la veille. Manager découpe la journée en blocs nets.",
+  },
+  {
+    src: "/screenshots/journal.png",
+    n: "Nº 03",
+    titleEn: "The journal.",
+    titleFr: "Le journal.",
+    capEn: "What you did, how it went. One line, one truth. You reread the next morning.",
+    capFr: "Ce que tu as fait, ce que ça a donné. Une ligne, une vérité. Tu relis au matin.",
+  },
+  {
+    src: "/screenshots/progress.png",
+    n: "Nº 04",
+    titleEn: "The proof.",
+    titleFr: "La preuve.",
+    capEn: "No streak badges. No motivational charts. Just the pattern your days make.",
+    capFr: "Pas de badge de série. Pas de courbes motivantes. Juste la forme que prennent tes jours.",
+  },
+  {
+    src: "/screenshots/themes.png",
+    n: "Nº 05",
+    titleEn: "Your room.",
+    titleFr: "Ta pièce.",
+    capEn: "Ten themes, light and dark. Gladiator is the house palette. The rest are at hand.",
+    capFr: "Dix thèmes, clair et sombre. Gladiator est la palette par défaut. Les autres sont à portée.",
+  },
+];
+---
+
+<section class="inside" id="inside" data-inside>
+  <div class="inside__head">
+    <span class="eyebrow" data-appear>
+      <span data-lang="en">Inside Manager</span>
+      <span data-lang="fr">Dans Manager</span>
+    </span>
+
+    <h2 class="inside__title" data-appear data-appear-delay="120">
+      <span data-lang="en">The tool, <em>on display.</em></span>
+      <span data-lang="fr">L'outil, <em>exposé.</em></span>
+    </h2>
+
+    <p class="inside__lede" data-appear data-appear-delay="260">
+      <span data-lang="en">Five screens. The whole app in five plates.</span>
+      <span data-lang="fr">Cinq écrans. L'app entière en cinq planches.</span>
+    </p>
+  </div>
+
+  <ol class="inside__list" data-appear-group>
+    {screens.map((s, i) => (
+      <li class="inside__item" data-appear>
+        <figure class="inside__fig">
+          <div class="inside__frame">
+            <span class="inside__frame-chrome" aria-hidden="true">
+              <span class="inside__dot"></span>
+              <span class="inside__dot"></span>
+              <span class="inside__dot"></span>
+            </span>
+            <img
+              src={s.src}
+              alt=""
+              loading={i === 0 ? "eager" : "lazy"}
+              decoding="async"
+              width="1300"
+              height="800"
+            />
+          </div>
+
+          <figcaption class="inside__cap">
+            <span class="inside__meta">
+              <span class="inside__num">{s.n} / {String(screens.length).padStart(2, "0")}</span>
+              <span class="inside__rule" aria-hidden="true"></span>
+            </span>
+            <h3 class="inside__screen-title">
+              <span data-lang="en">{s.titleEn}</span>
+              <span data-lang="fr">{s.titleFr}</span>
+            </h3>
+            <p class="inside__screen-body">
+              <span data-lang="en">{s.capEn}</span>
+              <span data-lang="fr">{s.capFr}</span>
+            </p>
+          </figcaption>
+        </figure>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .inside {
+    background: var(--paper);
+    border-top: 1px solid var(--rule);
+    padding: clamp(6rem, 10vw, 10rem) var(--gutter);
+  }
+
+  /* --- Head --- */
+  .inside__head {
+    max-width: var(--col-max);
+    margin: 0 auto clamp(3rem, 6vw, 5rem);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .inside__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 5vw + 0.5rem, 5.5rem);
+    font-weight: 200;
+    line-height: 0.96;
+    letter-spacing: var(--tracking-tight);
+    max-width: 14ch;
+  }
+  .inside__title em { font-style: italic; color: var(--mute); }
+  .inside__lede {
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 1vw + 0.75rem, 1.6rem);
+    font-style: italic;
+    color: var(--mute);
+  }
+
+  /* --- List --- */
+  .inside__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(5rem, 9vw, 9rem);
+    max-width: var(--col-max);
+    margin-inline: auto;
+  }
+
+  .inside__item:nth-child(even) .inside__fig {
+    direction: rtl;
+  }
+  .inside__item:nth-child(even) .inside__fig > * {
+    direction: ltr;
+  }
+
+  .inside__fig {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+    margin: 0;
+  }
+
+  /* --- Frame (screenshot) ---
+     - Au reveal : l'image s'ouvre en "rideau" (clip-path inset 100%→0)
+       et se dézoome légèrement (1.08→1) — effet Ken Burns court.
+     - Au hover : toute la frame soulève (-6px), l'image zoome un peu
+       (1→1.04) pour renforcer le "ça vit".
+     ----------------------------------------------------------------------- */
+  .inside__frame {
+    position: relative;
+    background: var(--paper-sunk);
+    border: 1px solid var(--ink);
+    padding: clamp(20px, 2vw, 32px) clamp(12px, 1.5vw, 20px) clamp(12px, 1.5vw, 20px);
+    overflow: hidden;
+    transition:
+      transform var(--dur-base) var(--ease-editorial),
+      box-shadow var(--dur-base) var(--ease-editorial);
+    will-change: transform;
+  }
+  .inside__frame:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 48px -24px oklch(14% 0.01 80 / 0.25);
+  }
+  .inside__frame:hover img {
+    transform: scale(1.04);
+  }
+
+  .inside__frame-chrome {
+    position: absolute;
+    top: clamp(8px, 0.9vw, 12px);
+    left: clamp(12px, 1.2vw, 18px);
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .inside__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--ink);
+    opacity: 0.35;
+  }
+  .inside__dot:nth-child(2) { opacity: 0.55; }
+  .inside__dot:nth-child(3) { opacity: 0.85; }
+
+  .inside__frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+    box-shadow: 0 0 0 1px var(--rule-strong);
+    /* Reveal state : cachée + zoomée, révélée en Ken Burns quand le
+       container (.inside__item) passe en is-appeared. */
+    clip-path: inset(100% 0 0 0);
+    transform: scale(1.08);
+    transition:
+      clip-path 1200ms var(--ease-editorial) 200ms,
+      transform 1600ms var(--ease-editorial) 200ms;
+    will-change: clip-path, transform;
+  }
+  .inside__item.is-appeared .inside__frame img {
+    clip-path: inset(0 0 0 0);
+    transform: scale(1);
+  }
+  /* Override du transform au hover pour que le zoom fonctionne même après
+     le reveal terminé. Utilise une transition plus courte pour la réactivité. */
+  .inside__frame:hover img {
+    transition: transform 600ms var(--ease-editorial);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .inside__frame img {
+      clip-path: none;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* --- Caption --- */
+  .inside__cap {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: 38ch;
+  }
+
+  .inside__meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .inside__num {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--mute);
+    font-variant-numeric: tabular-nums;
+    flex-shrink: 0;
+  }
+  .inside__rule {
+    height: 1px;
+    background: var(--ink);
+    flex: 1;
+    opacity: 0.4;
+  }
+
+  .inside__screen-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 2vw + 0.75rem, 2.5rem);
+    font-weight: 200;
+    line-height: 1;
+    letter-spacing: var(--tracking-tight);
+    color: var(--ink);
+  }
+
+  .inside__screen-body {
+    font-family: var(--font-display);
+    font-size: clamp(1.05rem, 0.5vw + 0.85rem, 1.25rem);
+    line-height: 1.45;
+    color: var(--mute);
+    font-style: italic;
+    margin: 0;
+  }
+
+  /* --- Mobile : stack vertical, pas d'alternance --- */
+  @media (max-width: 860px) {
+    .inside__fig,
+    .inside__item:nth-child(even) .inside__fig {
+      grid-template-columns: 1fr;
+      direction: ltr;
+      gap: var(--space-6);
+    }
+  }
+</style>

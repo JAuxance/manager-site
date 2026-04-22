@@ -1,0 +1,34 @@
+---
+// Fine ligne d'encre en haut qui mesure la progression de scroll.
+// Animée via CSS @property + une custom prop mise à jour par un petit rAF,
+// pour rester fluide sans layout thrash.
+---
+
+<div class="sp" aria-hidden="true" data-scroll-progress>
+  <div class="sp__bar"></div>
+</div>
+
+<style>
+  .sp {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    z-index: var(--z-ui);
+    pointer-events: none;
+    background: transparent;
+  }
+  .sp__bar {
+    height: 100%;
+    width: 100%;
+    background: var(--ink);
+    transform-origin: left center;
+    transform: scaleX(0);
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sp__bar { transform: scaleX(0); }
+  }
+</style>

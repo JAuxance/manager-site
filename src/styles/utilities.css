@@ -38,3 +38,51 @@
 .reveal-line { display: block; overflow: hidden; }
 .reveal-word { display: inline-block; will-change: transform, opacity; }
 .reveal-word + .reveal-word { margin-left: 0.25em; }
+
+/* ============================================================================
+   Reveal universel — piloté par src/scripts/reveal.ts
+   Attribut : data-appear (+ variante "left" / "right" / "scale" / "line")
+   Délai    : data-appear-delay="120" (ms) ou --appear-delay
+   Auto-stagger dans les [data-appear-group].
+   ============================================================================ */
+[data-appear] {
+  --appear-delay: 0ms;
+  --appear-dur: 820ms;
+  --appear-ease: cubic-bezier(0.2, 0.7, 0.1, 1);
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity var(--appear-dur) var(--appear-ease) var(--appear-delay),
+    transform var(--appear-dur) var(--appear-ease) var(--appear-delay);
+  will-change: opacity, transform;
+}
+[data-appear="left"]  { transform: translateX(-22px); }
+[data-appear="right"] { transform: translateX(22px); }
+[data-appear="scale"] { transform: scale(0.96); transform-origin: 50% 50%; }
+
+/* Clip-path uniquement pour la variante "line" — sinon ça mangerait les
+   jambages (g, p, y) et les box-shadows des descendants. */
+[data-appear="line"] {
+  opacity: 1;
+  transform: none;
+  clip-path: inset(0 0 100% 0);
+  transition:
+    clip-path var(--appear-dur) var(--appear-ease) var(--appear-delay);
+}
+
+[data-appear].is-appeared {
+  opacity: 1;
+  transform: none;
+}
+[data-appear="line"].is-appeared {
+  clip-path: inset(0 0 0 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-appear] {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+    transition: none;
+  }
+}
