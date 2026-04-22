@@ -1,5 +1,7 @@
 # Manager — Site
 
+**Live** : [https://managerladger.com](https://managerladger.com/)
+
 Site vitrine one-page pour [Manager](https://github.com/JAuxance/manager-releases) — day counter, focus timer, journal, coach IA (Dona).
 
 **Stack** : Astro 5, GSAP + Lenis, TypeScript. Pas de React, pas de Tailwind.
@@ -88,12 +90,13 @@ auth-done.html                    # page standalone de retour OAuth
 
 ## Déploiement
 
-Le site est prévu pour **Cloudflare Pages** :
+Déployé sur **Cloudflare Pages** à [managerladger.com](https://managerladger.com/).
 
 - Build command : `npm run build`
 - Output : `dist`
 - Env var recommandée : `GITHUB_TOKEN` (évite le rate-limit API)
-- Deploy Hook pingé par le workflow `notify-site.yml` du repo `manager-releases` à chaque release publiée.
+- Intégration Git : chaque push sur `main` déclenche un rebuild automatique.
+- Deploy Hook pingé en plus par le workflow `notify-site.yml` du repo `manager-releases` à chaque release publiée (rafraîchit les URLs de download).
 
 ## License
 
