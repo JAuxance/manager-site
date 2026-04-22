@@ -38,22 +38,22 @@
         font-style="italic" font-weight="300"
         font-size="210" fill="#211f18" letter-spacing="-4">Manager.</text>
 
-  <!-- Tagline line (mute italic serif) -->
+  <!-- Tagline — nouvelle baseline stoïque -->
   <text x="60" y="470"
         font-family="'DejaVu Serif', 'Liberation Serif', 'Times New Roman', serif"
         font-style="italic" font-weight="300"
-        font-size="40" fill="#6b6357" letter-spacing="-0.5">Day counter. Focus timer. Journal. Dona.</text>
+        font-size="46" fill="#6b6357" letter-spacing="-0.5">Count the days. Keep the log.</text>
 
   <!-- Hairline bottom -->
   <line x1="60" y1="540" x2="1140" y2="540" stroke="#211f18" stroke-width="1" opacity="0.85"/>
 
-  <!-- Bottom meta left -->
+  <!-- Bottom meta left — le sous-titre factuel du site -->
   <text x="60" y="585"
         font-family="'DejaVu Sans Mono', 'Liberation Mono', monospace"
-        font-size="17" fill="#211f18" letter-spacing="4" font-weight="500">HOLD THE LINE · DAY AFTER DAY</text>
+        font-size="16" fill="#211f18" letter-spacing="3.5" font-weight="500">A DESKTOP COMPANION · DAY COUNTER · FOCUS TIMER · JOURNAL</text>
 
   <!-- Bottom meta right -->
   <text x="1140" y="585" text-anchor="end"
         font-family="'DejaVu Sans Mono', 'Liberation Mono', monospace"
-        font-size="17" fill="#6b6357" letter-spacing="4" font-weight="500">WINDOWS · LINUX · LOCAL-FIRST</text>
+        font-size="16" fill="#6b6357" letter-spacing="3.5" font-weight="500">WINDOWS · LINUX</text>
 </svg>

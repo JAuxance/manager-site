@@ -14,6 +14,11 @@ const { winUrl: WIN_URL, debUrl: DEB_URL } = await getLatestRelease();
       <Logo animated class="hero__logo" />
     </div>
 
+    <p class="hero__tagline" data-hero-late>
+      <span data-lang="en">Count the days. <em>Keep the log.</em></span>
+      <span data-lang="fr">Compte les jours. <em>Tiens le carnet.</em></span>
+    </p>
+
     <span class="hero__free" data-reveal-free aria-label="Free">
       <span class="hero__free-dot" aria-hidden="true"></span>
       <span data-lang="en">Free</span>
@@ -42,6 +47,11 @@ const { winUrl: WIN_URL, debUrl: DEB_URL } = await getLatestRelease();
         </span>
       </span>
     </div>
+
+    <p class="hero__subtitle" data-hero-late data-hero-late-late>
+      <span data-lang="en">A desktop companion · Day counter · Focus timer · Journal</span>
+      <span data-lang="fr">Un compagnon desktop · Compteur · Focus · Carnet</span>
+    </p>
 
     <a class="hero__start" href="#get-started" data-reveal-start>
       <span class="hero__start-label">
@@ -136,6 +146,62 @@ const { winUrl: WIN_URL, debUrl: DEB_URL } = await getLatestRelease();
   }
   .hero__start:hover .hero__start-arrow {
     transform: translateY(3px);
+  }
+
+  /* --- Tagline principale (serif italique sous le logo) --- */
+  .hero__tagline {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 200;
+    font-size: clamp(1.6rem, 2vw + 1rem, 2.35rem);
+    line-height: 1.15;
+    letter-spacing: var(--tracking-tight);
+    color: var(--ink);
+    max-width: 24ch;
+    text-align: center;
+    margin: 0;
+    /* Annule une partie du gap du stage pour rapprocher du logo. */
+    margin-top: calc(clamp(3rem, 7vw, 6rem) * -0.35);
+    margin-bottom: calc(clamp(3rem, 7vw, 6rem) * -0.35);
+  }
+  .hero__tagline em {
+    font-style: italic;
+    color: var(--mute);
+  }
+
+  /* --- Sous-titre factuel (mono caps sous les boutons) --- */
+  .hero__subtitle {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--mute);
+    line-height: 1.5;
+    max-width: 48ch;
+    text-align: center;
+    margin: 0;
+    margin-top: calc(clamp(3rem, 7vw, 6rem) * -0.55);
+  }
+
+  /* Reveal tardif — après l'intro du logo et l'arrivée des CTAs. */
+  [data-hero-late] {
+    opacity: 0;
+    transform: translateY(8px);
+    animation: hero-late-fade 800ms var(--ease-editorial) 1900ms forwards;
+  }
+  [data-hero-late][data-hero-late-late] {
+    animation-delay: 2200ms;
+  }
+  @keyframes hero-late-fade {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    [data-hero-late] {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
   }
 
   /* --- Free badge --- */
