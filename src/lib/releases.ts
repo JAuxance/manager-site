@@ -16,7 +16,7 @@ const API_URL = `https://api.github.com/repos/${REPO}/releases/latest`;
 /* Fallback figé — utilisé si l'API est HS au moment du build.
    Mettre à jour ici uniquement si on publie une release majeure et que le
    réseau CI est KO — sinon, l'API prend le relais toute seule. */
-const FALLBACK_VERSION = "1.7.2";
+const FALLBACK_VERSION = "1.8.1";
 const FALLBACK_BASE = `https://github.com/${REPO}/releases/download/v${FALLBACK_VERSION}`;
 const FALLBACK: ReleaseInfo = {
   version: FALLBACK_VERSION,
