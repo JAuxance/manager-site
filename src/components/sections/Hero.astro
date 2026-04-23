@@ -3,7 +3,12 @@ import Logo from "~/components/Logo.astro";
 import ScrollCue from "~/components/ui/ScrollCue.astro";
 import { getLatestRelease } from "~/lib/releases";
 
-const { winUrl: WIN_URL, debUrl: DEB_URL } = await getLatestRelease();
+const {
+  winUrl: WIN_URL,
+  winSigUrl: WIN_SIG,
+  debUrl: DEB_URL,
+  debSigUrl: DEB_SIG,
+} = await getLatestRelease();
 ---
 
 <section class="hero" data-hero>
@@ -25,28 +30,71 @@ const { winUrl: WIN_URL, debUrl: DEB_URL } = await getLatestRelease();
       <span data-lang="fr">Gratuit</span>
     </span>
 
-    <div class="hero__actions" data-reveal-actions>
-      <a class="hbtn hbtn--solid" href={WIN_URL} data-magnetic>
+    <p class="hero__desktop-only" data-desktop-only hidden>
+      <span data-lang="en">Desktop app — open this page on your computer to install.</span>
+      <span data-lang="fr">App desktop — ouvre cette page sur ton ordinateur pour installer.</span>
+    </p>
+
+    <div class="hero__actions" data-reveal-actions data-hero-actions>
+      <a class="hbtn hbtn--solid" href={WIN_URL} data-magnetic data-os="win">
         <span class="hbtn__inner" data-magnetic-inner>
-          <span class="hbtn__label" data-lang="en">Download</span>
-          <span class="hbtn__label" data-lang="fr">Télécharger</span>
+          <span class="hbtn__label hbtn__label--short" data-lang="en">Download</span>
+          <span class="hbtn__label hbtn__label--short" data-lang="fr">Télécharger</span>
+          <span class="hbtn__label hbtn__label--full" data-lang="en">Download for Windows</span>
+          <span class="hbtn__label hbtn__label--full" data-lang="fr">Télécharger pour Windows</span>
           <span class="hbtn__plat">Windows · .exe</span>
         </span>
       </a>
-      <a class="hbtn hbtn--ghost" href={DEB_URL} data-magnetic>
+      <a class="hbtn hbtn--ghost" href={DEB_URL} data-magnetic data-os="linux">
         <span class="hbtn__inner" data-magnetic-inner>
-          <span class="hbtn__label">Linux</span>
+          <span class="hbtn__label hbtn__label--short">Linux</span>
+          <span class="hbtn__label hbtn__label--full" data-lang="en">Download for Linux</span>
+          <span class="hbtn__label hbtn__label--full" data-lang="fr">Télécharger pour Linux</span>
           <span class="hbtn__plat">.deb</span>
         </span>
       </a>
-      <span class="hbtn hbtn--soon" aria-disabled="true">
+      <span class="hbtn hbtn--soon" aria-disabled="true" data-os="mac">
         <span class="hbtn__inner">
-          <span class="hbtn__label">macOS</span>
+          <span class="hbtn__label hbtn__label--short">macOS</span>
+          <span class="hbtn__label hbtn__label--full" data-lang="en">macOS · coming soon</span>
+          <span class="hbtn__label hbtn__label--full" data-lang="fr">macOS · bientôt</span>
           <span class="hbtn__plat" data-lang="en">soon</span>
           <span class="hbtn__plat" data-lang="fr">bientôt</span>
         </span>
       </span>
     </div>
+
+    <!-- Révélé uniquement quand l'OS est reconnu : pointe vers #get-started
+         où toutes les plateformes restent listées. -->
+    <a class="hero__other" href="#get-started" data-hero-other>
+      <span data-lang="en">See all platforms</span>
+      <span data-lang="fr">Voir toutes les plateformes</span>
+      <span aria-hidden="true">↓</span>
+    </a>
+
+    <p class="hero__fineprint" data-hero-late data-hero-late-late>
+      <span data-lang="en">
+        Windows may warn on first launch (self-signed) — click <em>More info → Run anyway</em>.
+      </span>
+      <span data-lang="fr">
+        Windows peut alerter au 1er lancement (auto-signé) — clique <em>Informations complémentaires → Exécuter quand même</em>.
+      </span>
+      {(WIN_SIG || DEB_SIG) && (
+        <span class="hero__verify">
+          <span data-lang="en">Verify: </span>
+          <span data-lang="fr">Vérifier : </span>
+          {WIN_SIG && (
+            <a href={WIN_SIG} target="_blank" rel="noopener noreferrer">.exe.sig</a>
+          )}
+          {WIN_SIG && DEB_SIG && <span class="hero__verify-sep"> · </span>}
+          {DEB_SIG && (
+            <a href={DEB_SIG} target="_blank" rel="noopener noreferrer">.deb.sig</a>
+          )}
+          <span class="hero__verify-note" data-lang="en"> (minisign)</span>
+          <span class="hero__verify-note" data-lang="fr"> (minisign)</span>
+        </span>
+      )}
+    </p>
 
     <p class="hero__subtitle" data-hero-late data-hero-late-late>
       <span data-lang="en">A desktop companion · Day counter · Focus timer · Journal</span>
@@ -296,6 +344,132 @@ const { winUrl: WIN_URL, debUrl: DEB_URL } = await getLatestRelease();
   .hbtn--ghost  { background: transparent; color: var(--ink); box-shadow: var(--ring); }
   .hbtn--ghost:hover  { background: var(--ink); color: var(--paper); }
   .hbtn--soon   { background: transparent; color: var(--mute); box-shadow: inset 0 0 0 1px var(--rule-strong); cursor: not-allowed; }
+
+  /* --- Labels : court par défaut (3 boutons visibles), long quand l'OS
+     est verrouillé (1 bouton visible dédié à la bonne plateforme). ------ */
+  .hbtn__label--full { display: none; }
+
+  /* --- OS lock : quand data-os-known est posé par le JS, on masque les
+     CTAs non-matching et on promeut le bon bouton en "primary plein".
+     L'objectif : 1 seul bouton, plus gros, label explicite. ------------- */
+  [data-hero-actions][data-os-known="win"]  [data-os="linux"],
+  [data-hero-actions][data-os-known="win"]  [data-os="mac"],
+  [data-hero-actions][data-os-known="linux"] [data-os="win"],
+  [data-hero-actions][data-os-known="linux"] [data-os="mac"],
+  [data-hero-actions][data-os-known="mac"]   [data-os="win"],
+  [data-hero-actions][data-os-known="mac"]   [data-os="linux"] {
+    display: none;
+  }
+
+  /* Quand l'OS est verrouillé : label long, padding plus généreux.         */
+  [data-hero-actions][data-os-known] .hbtn__label--short { display: none; }
+  [data-hero-actions][data-os-known] .hbtn__label--full  {
+    display: inline;
+    font-size: 13px;
+  }
+  [data-hero-actions][data-os-known] .hbtn {
+    --pad-x: var(--space-8);
+    --pad-y: var(--space-4);
+  }
+  [data-hero-actions][data-os-known] .hbtn__inner {
+    gap: 4px;
+  }
+
+  /* Linux verrouillé → ghost devient solid (accent). */
+  [data-hero-actions][data-os-known="linux"] .hbtn--ghost {
+    background: var(--accent);
+    color: var(--accent-ink);
+    box-shadow: 0 0 0 1px var(--accent), 0 1px 0 0 var(--accent-hover) inset;
+  }
+  [data-hero-actions][data-os-known="linux"] .hbtn--ghost:hover {
+    background: var(--accent-hover);
+    color: var(--accent-ink);
+    box-shadow: 0 0 0 1px var(--accent-hover), 0 10px 32px -12px var(--accent-soft);
+  }
+
+  /* macOS verrouillé → le "soon" reste non-cliquable mais plus présent. */
+  [data-hero-actions][data-os-known="mac"] .hbtn--soon {
+    background: var(--paper-sunk);
+    color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--rule-strong);
+  }
+  [data-hero-actions][data-os-known="mac"] .hbtn--soon .hbtn__plat { display: none; }
+
+  /* --- "See all platforms" link — visible uniquement quand locked. ----- */
+  .hero__other {
+    display: none;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--mute);
+    text-decoration: none;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: calc(clamp(3rem, 7vw, 6rem) * -0.5);
+    line-height: 1;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+  .hero__other[data-hero-other-show="1"] { display: inline-flex; }
+  .hero__other:hover { color: var(--ink); }
+
+  /* --- Fineprint (SmartScreen + verify) --- */
+  .hero__fineprint {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--mute);
+    line-height: 1.6;
+    max-width: 58ch;
+    text-align: center;
+    margin: 0;
+    margin-top: calc(clamp(3rem, 7vw, 6rem) * -0.7);
+  }
+  .hero__fineprint em {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--ink);
+    font-size: 1.05em;
+  }
+  .hero__verify {
+    display: block;
+    margin-top: var(--space-2);
+    font-size: 10px;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    opacity: 0.85;
+  }
+  .hero__verify a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-soft);
+    padding-bottom: 1px;
+    transition: border-color var(--dur-fast) var(--ease-out);
+  }
+  .hero__verify a:hover { border-bottom-color: var(--accent); }
+  .hero__verify-sep { color: var(--mute); opacity: 0.5; }
+  .hero__verify-note { opacity: 0.55; }
+
+  /* --- Desktop-only mobile banner --- */
+  .hero__desktop-only {
+    display: none;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--ink);
+    background: var(--accent-soft);
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--accent);
+    text-align: center;
+    max-width: 32rem;
+    margin: 0 auto;
+    margin-bottom: calc(clamp(3rem, 7vw, 6rem) * -0.4);
+    line-height: 1.4;
+  }
+  .hero__desktop-only[data-show="1"] { display: block; }
 
   /* --- Scroll cue — ligne du bas dans la grille, pas absolute --- */
   .hero__cue {

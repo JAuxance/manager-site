@@ -1,6 +1,7 @@
 import { initSmoothScroll } from "./lenis-bridge";
 import { initHero } from "./hero";
 import { initMagnetic } from "./magnetic";
+import { initDownload } from "./download";
 import { initTheWork } from "./the-work";
 import { initFocus } from "./focus";
 import { initYourLog } from "./your-log";
@@ -19,6 +20,7 @@ initSmoothScroll(reduced);
 
 // Interactions.
 initMagnetic(reduced);
+initDownload();
 
 // Sections.
 initHero(reduced);

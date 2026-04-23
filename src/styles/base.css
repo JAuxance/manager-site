@@ -110,3 +110,167 @@ html[lang="fr"] [data-lang="en"] { display: none; }
   outline: 1px solid var(--paper);
   outline-offset: 2px;
 }
+
+/* ============================================================================
+   Download toast — affiché après un clic sur .exe ou .deb. Auto-dismiss 9s.
+   Structure : title · filename (mono) · steps (ol).
+   Positionné bottom-right, hors du flux. CSS only, JS toggle .is-show.
+   ========================================================================= */
+.dl-toast {
+  position: fixed;
+  bottom: var(--space-4);
+  right: var(--space-4);
+  z-index: 110;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  width: min(460px, calc(100vw - 2rem));
+  padding: var(--space-4) var(--space-5, 1.25rem) var(--space-4) var(--space-4);
+  background: var(--ink);
+  color: var(--paper);
+  border-left: 2px solid var(--accent);
+  box-shadow: 0 18px 48px -16px oklch(0% 0 0 / 0.45);
+  transform: translateY(20px);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform var(--dur-base) var(--ease-editorial),
+    opacity var(--dur-base) var(--ease-out);
+}
+.dl-toast.is-show {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.dl-toast__dot {
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin-top: 8px;
+  animation: dl-toast-pulse 1.4s ease-out 2;
+}
+@keyframes dl-toast-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-soft); }
+  50%      { box-shadow: 0 0 0 6px transparent; }
+}
+
+.dl-toast__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  line-height: 1.4;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+}
+
+.dl-toast__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.dl-toast__title {
+  font-weight: 500;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--paper);
+  font-size: 11px;
+}
+
+.dl-toast__file {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-style: normal;
+  letter-spacing: 0;
+  color: var(--accent);
+  padding: 4px 8px;
+  background: oklch(0% 0 0 / 0.3);
+  border-left: 1px solid var(--accent);
+  word-break: break-all;
+  line-height: 1.45;
+  align-self: stretch;
+}
+
+.dl-toast__steps {
+  list-style: none;
+  counter-reset: dl-step;
+  padding: 0;
+  margin: var(--space-1) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.dl-toast__steps li {
+  counter-increment: dl-step;
+  position: relative;
+  padding-left: 22px;
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  line-height: 1.55;
+  color: oklch(from var(--paper) l c h / 0.78);
+}
+.dl-toast__steps li::before {
+  content: counter(dl-step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  width: 15px;
+  height: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border-radius: 999px;
+}
+.dl-toast__steps li em {
+  font-style: normal;
+  color: var(--paper);
+  font-weight: 500;
+  background: oklch(from var(--paper) l c h / 0.08);
+  padding: 1px 5px;
+}
+
+.dl-toast__close {
+  flex-shrink: 0;
+  background: transparent;
+  border: 0;
+  color: oklch(from var(--paper) l c h / 0.55);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0 2px;
+  margin: -4px -4px -4px 0;
+  transition: color var(--dur-fast) var(--ease-out);
+}
+.dl-toast__close:hover { color: var(--paper); }
+.dl-toast__close:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dl-toast { transition: opacity var(--dur-fast) var(--ease-out); transform: none; }
+  .dl-toast__dot { animation: none; }
+}
+
+@media (max-width: 560px) {
+  .dl-toast {
+    left: var(--space-4);
+    right: var(--space-4);
+    width: auto;
+    bottom: var(--space-3);
+  }
+}

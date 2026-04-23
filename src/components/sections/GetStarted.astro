@@ -4,7 +4,13 @@
 
 import { getLatestRelease } from "~/lib/releases";
 
-const { version: VERSION, winUrl: WIN_URL, debUrl: DEB_URL } = await getLatestRelease();
+const {
+  version: VERSION,
+  winUrl: WIN_URL,
+  winSigUrl: WIN_SIG,
+  debUrl: DEB_URL,
+  debSigUrl: DEB_SIG,
+} = await getLatestRelease();
 const AUR_PKG = "manager-bin";
 const GH_RELEASES = "https://github.com/JAuxance/manager-releases";
 ---
@@ -39,28 +45,61 @@ const GH_RELEASES = "https://github.com/JAuxance/manager-releases";
         </h3>
       </div>
 
-      <div class="gs__dls">
-        <a class="gs__dl gs__dl--primary" href={WIN_URL}>
+      <div class="gs__dls" data-gs-dls>
+        <a class="gs__dl gs__dl--primary" href={WIN_URL} data-os="win">
           <span class="gs__dl-plat">Windows</span>
           <span class="gs__dl-ext">.exe · v{VERSION}</span>
+          <span class="gs__dl-match" aria-hidden="true">
+            <span data-lang="en">Your system</span>
+            <span data-lang="fr">Ton système</span>
+          </span>
         </a>
 
-        <a class="gs__dl" href={DEB_URL}>
+        <a class="gs__dl" href={DEB_URL} data-os="linux">
           <span class="gs__dl-plat">Linux</span>
           <span class="gs__dl-ext">.deb · v{VERSION}</span>
+          <span class="gs__dl-match" aria-hidden="true">
+            <span data-lang="en">Your system</span>
+            <span data-lang="fr">Ton système</span>
+          </span>
         </a>
 
-        <div class="gs__dl gs__dl--code" aria-label="Arch Linux AUR">
+        <div class="gs__dl gs__dl--code" aria-label="Arch Linux AUR" data-os="linux">
           <span class="gs__dl-plat">Arch · AUR</span>
           <code class="gs__dl-cmd">yay -S {AUR_PKG}</code>
         </div>
 
-        <div class="gs__dl gs__dl--soon">
+        <div class="gs__dl gs__dl--soon" data-os="mac">
           <span class="gs__dl-plat">macOS</span>
           <span class="gs__dl-ext" data-lang="en">Coming soon</span>
           <span class="gs__dl-ext" data-lang="fr">Bientôt</span>
         </div>
       </div>
+
+      <a class="gs__dl-other" href={GH_RELEASES} target="_blank" rel="noopener noreferrer" data-gs-dls-other>
+        <span data-lang="en">Need another OS? Browse all assets on GitHub</span>
+        <span data-lang="fr">Besoin d'un autre OS ? Tous les assets sur GitHub</span>
+        <span aria-hidden="true">→</span>
+      </a>
+
+      {(WIN_SIG || DEB_SIG) && (
+        <p class="gs__dl-verify">
+          <span class="gs__dl-verify-label" data-lang="en">Verify signatures (minisign):</span>
+          <span class="gs__dl-verify-label" data-lang="fr">Vérifier les signatures (minisign) :</span>
+          {WIN_SIG && (
+            <a href={WIN_SIG} target="_blank" rel="noopener noreferrer">.exe.sig</a>
+          )}
+          {WIN_SIG && DEB_SIG && <span> · </span>}
+          {DEB_SIG && (
+            <a href={DEB_SIG} target="_blank" rel="noopener noreferrer">.deb.sig</a>
+          )}
+        </p>
+      )}
+
+      <p class="gs__smartscreen">
+        <span data-lang="en"><strong>Windows note:</strong> first launch may trigger SmartScreen (self-signed installer). Click <em>More info → Run anyway</em>. Normal behavior; the auto-updater is signed with minisign.</span>
+        <span data-lang="fr"><strong>Note Windows :</strong> le premier lancement peut déclencher SmartScreen (installeur auto-signé). Clique <em>Informations complémentaires → Exécuter quand même</em>. Normal — l'updater auto est signé minisign.</span>
+      </p>
     </li>
 
     <!-- Step 02 — Install -->
@@ -385,6 +424,135 @@ const GH_RELEASES = "https://github.com/JAuxance/manager-releases";
     padding: 0;
     letter-spacing: 0;
     text-transform: none;
+  }
+
+  /* OS match pill sur le CTA correspondant (avant le lock OS complet) */
+  .gs__dl-match {
+    position: absolute;
+    top: -8px;
+    right: 10px;
+    display: none;
+    padding: 2px 6px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-family: var(--font-mono);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    line-height: 1.3;
+    pointer-events: none;
+  }
+  .gs__dl[data-os-match="1"] .gs__dl-match { display: inline-block; }
+  .gs__dl--code[data-os-match="1"] { box-shadow: inset 0 0 0 1px var(--accent); }
+  .gs__dl:not(.gs__dl--primary)[data-os-match="1"] { box-shadow: inset 0 0 0 1.5px var(--accent); }
+
+  /* --- OS lock : une fois l'OS connu, on masque les autres et on
+     promeut le CTA matching en primary. Plus besoin du pill. ------------ */
+  [data-gs-dls][data-os-known="win"]   [data-os="linux"],
+  [data-gs-dls][data-os-known="win"]   [data-os="mac"],
+  [data-gs-dls][data-os-known="linux"] [data-os="win"],
+  [data-gs-dls][data-os-known="linux"] [data-os="mac"],
+  [data-gs-dls][data-os-known="mac"]   [data-os="win"],
+  [data-gs-dls][data-os-known="mac"]   [data-os="linux"] {
+    display: none;
+  }
+  [data-gs-dls][data-os-known] .gs__dl-match { display: none; }
+
+  /* Linux locked → le ghost .gs__dl standard devient accent. L'AUR
+     reste en code style (cmd) mais avec border accent pour l'énergie. */
+  [data-gs-dls][data-os-known="linux"] .gs__dl:not(.gs__dl--code):not(.gs__dl--soon) {
+    background: var(--accent);
+    color: var(--accent-ink);
+    box-shadow: inset 0 0 0 1px var(--accent);
+  }
+  [data-gs-dls][data-os-known="linux"] .gs__dl:not(.gs__dl--code):not(.gs__dl--soon)::before {
+    display: none;
+  }
+  [data-gs-dls][data-os-known="linux"] .gs__dl:not(.gs__dl--code):not(.gs__dl--soon):hover {
+    background: var(--accent-hover);
+    color: var(--accent-ink);
+    box-shadow: inset 0 0 0 1px var(--accent-hover), 0 14px 36px -14px var(--accent-soft);
+  }
+  [data-gs-dls][data-os-known="linux"] .gs__dl--code {
+    box-shadow: inset 0 0 0 1px var(--accent-soft);
+  }
+
+  /* --- "Need another OS?" link — visible uniquement sur OS lock. ------ */
+  .gs__dl-other {
+    display: none;
+    margin-top: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--mute);
+    text-decoration: none;
+    align-items: center;
+    gap: var(--space-2);
+    transition: color var(--dur-fast) var(--ease-out);
+    width: fit-content;
+  }
+  [data-gs-dls][data-os-known] + .gs__dl-other,
+  .gs__dl-other[data-show="1"] {
+    display: inline-flex;
+  }
+  .gs__dl-other:hover { color: var(--ink); }
+  .gs__dl-other:hover span[aria-hidden] { transform: translateX(3px); }
+  .gs__dl-other span[aria-hidden] {
+    display: inline-block;
+    transition: transform var(--dur-fast) var(--ease-out);
+    color: var(--accent);
+  }
+
+  /* Verify minisign signatures row — sous les boutons de download */
+  .gs__dl-verify {
+    margin: var(--space-3) 0 0;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--mute);
+    line-height: 1.5;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    align-items: baseline;
+  }
+  .gs__dl-verify-label {
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    font-size: 10px;
+  }
+  .gs__dl-verify a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-soft);
+    padding-bottom: 1px;
+    transition: border-color var(--dur-fast) var(--ease-out);
+  }
+  .gs__dl-verify a:hover { border-bottom-color: var(--accent); }
+
+  /* SmartScreen note — petite callout sous les downloads */
+  .gs__smartscreen {
+    margin: var(--space-4) 0 0;
+    padding: var(--space-3) var(--space-4);
+    background: var(--paper-sunk);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    line-height: 1.55;
+    color: var(--mute);
+    max-width: 52rem;
+  }
+  .gs__smartscreen strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .gs__smartscreen em {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--ink);
+    font-size: 1.1em;
+    letter-spacing: 0;
   }
 
   /* --- Step 04 pricing tiers --- */

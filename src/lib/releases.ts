@@ -21,7 +21,9 @@ const FALLBACK_BASE = `https://github.com/${REPO}/releases/download/v${FALLBACK_
 const FALLBACK: ReleaseInfo = {
   version: FALLBACK_VERSION,
   winUrl: `${FALLBACK_BASE}/Manager_${FALLBACK_VERSION}_x64-setup.exe`,
+  winSigUrl: `${FALLBACK_BASE}/Manager_${FALLBACK_VERSION}_x64-setup.exe.sig`,
   debUrl: `${FALLBACK_BASE}/Manager_${FALLBACK_VERSION}_amd64.deb`,
+  debSigUrl: `${FALLBACK_BASE}/Manager_${FALLBACK_VERSION}_amd64.deb.sig`,
   macUrl: null,
   htmlUrl: `https://github.com/${REPO}/releases/latest`,
   stale: true,
@@ -30,7 +32,11 @@ const FALLBACK: ReleaseInfo = {
 export interface ReleaseInfo {
   version: string;
   winUrl: string;
+  /** Minisign signature for the .exe (null if API didn't publish one). */
+  winSigUrl: string | null;
   debUrl: string;
+  /** Minisign signature for the .deb (null if API didn't publish one). */
+  debSigUrl: string | null;
   macUrl: string | null;
   htmlUrl: string;
   /** true si on sert le fallback (API injoignable). */
@@ -128,7 +134,9 @@ async function fetchLatest(): Promise<ReleaseInfo> {
     return {
       version,
       winUrl: find(/\.exe$/i) ?? FALLBACK.winUrl,
+      winSigUrl: find(/\.exe\.sig$/i),
       debUrl: find(/\.deb$/i) ?? FALLBACK.debUrl,
+      debSigUrl: find(/\.deb\.sig$/i),
       macUrl: find(/\.(dmg|app\.tar\.gz)$/i),
       htmlUrl: data.html_url,
       stale: false,
