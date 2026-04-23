@@ -224,13 +224,14 @@ const { winUrl: WIN_URL, debUrl: DEB_URL } = await getLatestRelease();
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: var(--ink);
+    background: var(--accent);
     display: inline-block;
     animation: hero-free-pulse 2.2s ease-in-out infinite;
+    box-shadow: 0 0 0 0 var(--accent-soft);
   }
   @keyframes hero-free-pulse {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50%      { transform: scale(1.35); opacity: 0.55; }
+    0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 var(--accent-soft); }
+    50%      { transform: scale(1.3); opacity: 0.7; box-shadow: 0 0 0 6px transparent; }
   }
   @media (prefers-reduced-motion: reduce) {
     .hero__free-dot { animation: none; }
@@ -286,11 +287,12 @@ const { winUrl: WIN_URL, debUrl: DEB_URL } = await getLatestRelease();
   /* Télécharger = primary → padding horizontal plus généreux pour la prominence.
      On ne touche pas le padding vertical pour ne pas casser la ligne des 3 CTAs. */
   .hbtn--solid  {
-    background: var(--ink);
-    color: var(--paper);
+    background: var(--accent);
+    color: var(--accent-ink);
+    box-shadow: 0 0 0 1px var(--accent), 0 1px 0 0 var(--accent-hover) inset;
     --pad-x: var(--space-6);
   }
-  .hbtn--solid:hover  { background: var(--paper); color: var(--ink); box-shadow: var(--ring); }
+  .hbtn--solid:hover  { background: var(--accent-hover); box-shadow: 0 0 0 1px var(--accent-hover), 0 10px 32px -12px var(--accent-soft); }
   .hbtn--ghost  { background: transparent; color: var(--ink); box-shadow: var(--ring); }
   .hbtn--ghost:hover  { background: var(--ink); color: var(--paper); }
   .hbtn--soon   { background: transparent; color: var(--mute); box-shadow: inset 0 0 0 1px var(--rule-strong); cursor: not-allowed; }

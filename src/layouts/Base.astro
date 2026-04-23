@@ -6,7 +6,6 @@ import "~/styles/base.css";
 import "~/styles/utilities.css";
 
 import Grain from "~/components/Grain.astro";
-import Cursor from "~/components/Cursor.astro";
 import GithubLink from "~/components/GithubLink.astro";
 import LangToggle from "~/components/LangToggle.astro";
 import ScrollProgress from "~/components/ScrollProgress.astro";
@@ -69,8 +68,9 @@ const jsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="color-scheme" content="light only" />
-    <meta name="theme-color" content="#f6f5f1" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#f0eeeb" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)" />
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -124,7 +124,6 @@ const jsonLd = {
     </a>
 
     <Grain />
-    <Cursor />
     <ScrollProgress />
     <div class="lang-fixed">
       <LangToggle variant="solid" />

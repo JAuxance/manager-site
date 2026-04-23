@@ -1,6 +1,5 @@
 import { initSmoothScroll } from "./lenis-bridge";
 import { initHero } from "./hero";
-import { initCursor } from "./cursor";
 import { initMagnetic } from "./magnetic";
 import { initTheWork } from "./the-work";
 import { initFocus } from "./focus";
@@ -17,9 +16,6 @@ initLangToggle();
 
 // Lenis + GSAP bridge d'abord (registerPlugin).
 initSmoothScroll(reduced);
-
-// Curseur custom.
-initCursor(reduced);
 
 // Interactions.
 initMagnetic(reduced);

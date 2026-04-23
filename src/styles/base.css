@@ -27,8 +27,8 @@ body {
 }
 
 ::selection {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--accent);
+  color: var(--accent-ink);
 }
 
 /* Display par défaut sur les headings */
@@ -47,17 +47,6 @@ h4, h5, h6 {
   font-size: var(--text-xs);
 }
 
-/* Curseur natif masqué quand le curseur custom est actif */
-html.has-custom-cursor,
-html.has-custom-cursor * {
-  cursor: none !important;
-}
-
-@media (hover: none) {
-  html.has-custom-cursor,
-  html.has-custom-cursor * { cursor: auto !important; }
-}
-
 /* i18n — masque la langue inactive.
    Usage : <span data-lang="en">…</span><span data-lang="fr">…</span> */
 html[lang="en"] [data-lang="fr"] { display: none; }
@@ -72,11 +61,12 @@ html[lang="fr"] [data-lang="en"] { display: none; }
   z-index: var(--z-ui);
   padding: var(--space-3) var(--space-4);
   background: var(--ink);
+  color: var(--paper);
   display: inline-flex;
   align-items: center;
   transition: background var(--dur-fast) var(--ease-out);
 }
-.lang-fixed:hover { background: oklch(from var(--ink) calc(l + 0.08) c h); }
+.lang-fixed:hover { background: var(--ink-warm); }
 
 /* Flash-guard — cache les badges fixed en haut tant que hero.ts n'a pas
    posé leur état initial (y: -16, opacity: 0) puis ajouté .is-ready.

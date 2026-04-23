@@ -1,0 +1,352 @@
+---
+// § 2b — Included
+// Spec pragmatique : ce que l'app fait concrètement, ce qui est gratuit,
+// ce qui est optionnel, et sur quels systèmes ça tourne. La contrepartie
+// factuelle de Inside (les screenshots) et de TheWork (la poésie).
+
+const freeFeatures = [
+  { en: "Day counter & streaks",        fr: "Compteur de jours & séries" },
+  { en: "Focus timer · Pomodoro presets", fr: "Timer focus · préréglages Pomodoro" },
+  { en: "Weekly schedule",              fr: "Planning hebdomadaire" },
+  { en: "Daily tasks · recurring",      fr: "Tâches quotidiennes · récurrentes" },
+  { en: "Daily journal",                fr: "Carnet quotidien" },
+  { en: "Progress charts",              fr: "Courbes de progression" },
+  { en: "Morning check-in ritual",      fr: "Rituel du matin" },
+  { en: "10+ themes · light & dark",    fr: "10+ thèmes · clair & sombre" },
+  { en: "English & French",             fr: "Anglais & Français" },
+  { en: "Auto-updater · signed builds", fr: "Mise à jour auto · builds signés" },
+];
+
+const optional = [
+  {
+    titleEn: "Dona · AI coach",
+    titleFr: "Dona · Coach IA",
+    bodyEn: "Reads your log, answers in context. Bring your own key, or subscribe in-app.",
+    bodyFr: "Lit ton carnet, répond en contexte. Clé perso, ou abonnement dans l'app.",
+  },
+  {
+    titleEn: "Sync across devices",
+    titleFr: "Sync multi-appareils",
+    bodyEn: "Opt-in Supabase sync. Without it, Manager runs 100% offline.",
+    bodyFr: "Sync Supabase opt-in. Sans elle, Manager tourne 100% hors-ligne.",
+  },
+];
+
+const system = [
+  { label: "Windows",  value: "10 / 11 · .exe (NSIS)" },
+  { label: "Linux",    value: ".deb · AUR (yay -S manager-bin)" },
+  { label: "macOS",    valueEn: "coming soon", valueFr: "bientôt" },
+  { label: "Size",     labelFr: "Taille",     value: "~ 50 MB" },
+  { label: "Storage",  labelFr: "Stockage",   valueEn: "Local SQLite · portable file", valueFr: "SQLite local · fichier portable" },
+  { label: "Account",  labelFr: "Compte",     valueEn: "None required", valueFr: "Aucun requis" },
+];
+---
+
+<section class="inc" id="included" data-inc>
+  <div class="inc__shell">
+    <div class="inc__head">
+      <span class="eyebrow" data-appear>
+        <span data-lang="en">What's inside</span>
+        <span data-lang="fr">Ce qu'il y a dedans</span>
+      </span>
+
+      <h2 class="inc__title" data-appear data-appear-delay="120">
+        <span data-lang="en">The whole tool, <em>free, forever.</em></span>
+        <span data-lang="fr">L'outil entier, <em>gratuit, pour toujours.</em></span>
+      </h2>
+
+      <p class="inc__lede" data-appear data-appear-delay="240">
+        <span data-lang="en">No account. No tracking. No feature locked behind a paywall.</span>
+        <span data-lang="fr">Aucun compte. Aucun tracking. Aucune fonctionnalité derrière un paywall.</span>
+      </p>
+    </div>
+
+    <div class="inc__grid">
+      <!-- Free features -->
+      <div class="inc__block" data-appear>
+        <h3 class="inc__block-title">
+          <span class="inc__num">01</span>
+          <span data-lang="en">Free, forever</span>
+          <span data-lang="fr">Gratuit, pour toujours</span>
+        </h3>
+        <ul class="inc__list" role="list">
+          {freeFeatures.map((f) => (
+            <li class="inc__row">
+              <span class="inc__mark" aria-hidden="true">·</span>
+              <span class="inc__row-text">
+                <span data-lang="en">{f.en}</span>
+                <span data-lang="fr">{f.fr}</span>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Optional add-ons -->
+      <div class="inc__block" data-appear data-appear-delay="120">
+        <h3 class="inc__block-title">
+          <span class="inc__num">02</span>
+          <span data-lang="en">Optional · opt-in</span>
+          <span data-lang="fr">Optionnel · opt-in</span>
+        </h3>
+        <ul class="inc__opt" role="list">
+          {optional.map((o) => (
+            <li class="inc__opt-row">
+              <span class="inc__opt-title">
+                <span data-lang="en">{o.titleEn}</span>
+                <span data-lang="fr">{o.titleFr}</span>
+              </span>
+              <span class="inc__opt-body">
+                <span data-lang="en">{o.bodyEn}</span>
+                <span data-lang="fr">{o.bodyFr}</span>
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- System -->
+      <div class="inc__block" data-appear data-appear-delay="240">
+        <h3 class="inc__block-title">
+          <span class="inc__num">03</span>
+          <span data-lang="en">System</span>
+          <span data-lang="fr">Système</span>
+        </h3>
+        <dl class="inc__spec">
+          {system.map((s) => (
+            <div class="inc__spec-row">
+              <dt>
+                <span data-lang="en">{s.label}</span>
+                <span data-lang="fr">{s.labelFr ?? s.label}</span>
+              </dt>
+              <dd>
+                <span data-lang="en">{s.valueEn ?? s.value}</span>
+                <span data-lang="fr">{s.valueFr ?? s.value}</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+
+    <!-- Anti-promise — ce que l'app ne fait PAS. Positionne l'app en creux. -->
+    <aside class="inc__anti" data-appear data-appear-delay="400">
+      <span class="inc__anti-label">
+        <span data-lang="en">Not on offer</span>
+        <span data-lang="fr">Pas au programme</span>
+      </span>
+      <p class="inc__anti-list">
+        <span data-lang="en">No gamification. No streak badges. No push notifications. No ads. No data resale.</span>
+        <span data-lang="fr">Pas de gamification. Pas de badges de série. Pas de notifications push. Pas de pubs. Pas de revente de données.</span>
+      </p>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .inc {
+    position: relative;
+    background: var(--paper);
+    border-top: 1px solid var(--rule);
+    padding: clamp(5rem, 9vw, 9rem) 0;
+  }
+
+  .inc__shell {
+    width: 100%;
+    max-width: var(--col-max);
+    margin: 0 auto;
+    padding-inline: var(--gutter);
+  }
+
+  /* --- Head : asymétrique, aligné à gauche --- */
+  .inc__head {
+    max-width: 42rem;
+    margin-bottom: clamp(3rem, 5vw, 5rem);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .inc__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw + 0.5rem, 4.75rem);
+    font-weight: 200;
+    line-height: 0.98;
+    letter-spacing: var(--tracking-tight);
+    margin: 0;
+  }
+  .inc__title em { font-style: italic; color: var(--accent); }
+  .inc__lede {
+    font-family: var(--font-display);
+    font-size: clamp(1.15rem, 0.85vw + 0.85rem, 1.45rem);
+    font-style: italic;
+    color: var(--mute);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  /* --- Grid : 3 blocs, colonnes inégales --- */
+  .inc__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: start;
+    border-top: 1px solid var(--rule);
+    padding-top: clamp(2.5rem, 4vw, 3.5rem);
+  }
+
+  .inc__block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .inc__block-title {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--ink);
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--space-3);
+  }
+  .inc__num {
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* --- Free feature list --- */
+  .inc__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .inc__row {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 0.3vw + 0.9rem, 1.15rem);
+    line-height: 1.35;
+    color: var(--ink);
+  }
+  .inc__row:first-child { border-top: 1px solid var(--rule); }
+  .inc__mark {
+    color: var(--accent);
+    font-family: var(--font-mono);
+    line-height: 1.35;
+    flex-shrink: 0;
+    font-weight: 700;
+  }
+  .inc__row-text { flex: 1; }
+
+  /* --- Optional block --- */
+  .inc__opt {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .inc__opt-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-4) 0;
+    border-top: 1px solid var(--rule);
+  }
+  .inc__opt-row:last-child { border-bottom: 1px solid var(--rule); }
+  .inc__opt-title {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .inc__opt-body {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1rem, 0.3vw + 0.9rem, 1.1rem);
+    line-height: 1.45;
+    color: var(--mute);
+  }
+
+  /* --- Spec list (dl) --- */
+  .inc__spec {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .inc__spec-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+    gap: var(--space-3);
+    padding: var(--space-3) 0;
+    border-top: 1px solid var(--rule);
+    align-items: baseline;
+  }
+  .inc__spec-row:last-child { border-bottom: 1px solid var(--rule); }
+  .inc__spec dt {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+  .inc__spec dd {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    line-height: 1.4;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* --- Anti-promise --- */
+  .inc__anti {
+    margin-top: clamp(3rem, 5vw, 4rem);
+    padding-top: clamp(2rem, 3vw, 2.5rem);
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: baseline;
+  }
+  .inc__anti-label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    letter-spacing: var(--tracking-caps);
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+  .inc__anti-list {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(1.15rem, 0.8vw + 0.9rem, 1.5rem);
+    line-height: 1.4;
+    color: var(--ink);
+    margin: 0;
+    max-width: 50ch;
+  }
+
+  /* --- Mobile --- */
+  @media (max-width: 900px) {
+    .inc__grid {
+      grid-template-columns: 1fr;
+      gap: clamp(2.5rem, 5vw, 4rem);
+    }
+    .inc__anti {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+  }
+</style>
