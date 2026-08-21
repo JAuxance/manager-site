@@ -5,25 +5,23 @@ import "~/styles/fonts.css";
 import "~/styles/base.css";
 import "~/styles/utilities.css";
 
-import Grain from "~/components/Grain.astro";
-import GithubLink from "~/components/GithubLink.astro";
 import LangToggle from "~/components/LangToggle.astro";
-import ScrollProgress from "~/components/ScrollProgress.astro";
+import ThemeToggle from "~/components/ThemeToggle.astro";
 
 interface Props {
   title?: string;
   description?: string;
-  /** Relative OG/Twitter image path under /public. Absolute URL is built from Astro.site. */
   ogImage?: string;
-  /** Set to true on pages that shouldn't be indexed (e.g. 404). */
   noindex?: boolean;
+  chrome?: boolean;
 }
 
 const {
-  title = "Manager — Day counter, focus timer, journal.",
-  description = "Count the days. Keep the log. Free local-first desktop app: day counter, focus timer, daily journal, and Dona — an AI coach that reads your log.",
+  title = "Manager — Votre espace pour avancer",
+  description = "Manager réunit tâches, planning, sessions de focus, progression et journal dans une application desktop calme pour Windows et Linux.",
   ogImage = "/og-image.png",
   noindex = false,
+  chrome = true,
 } = Astro.props;
 
 const SITE_URL = Astro.site ?? new URL("https://managerladger.com");
@@ -39,13 +37,8 @@ const jsonLd = {
       url: SITE_URL.href,
       applicationCategory: "ProductivityApplication",
       operatingSystem: "Windows, Linux",
-      description:
-        "Local-first desktop productivity app: day counter, Pomodoro focus timer, daily journal, weekly schedule, progress charts, and Dona — an AI coach that reads your log.",
-      offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "EUR",
-      },
+      description,
+      offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
       author: {
         "@type": "Person",
         name: "JAuxance",
@@ -68,9 +61,26 @@ const jsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#f0eeeb" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#111110" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="dark light" />
+    <meta id="theme-color" name="theme-color" content="#05070d" />
+    <script is:inline>
+      (() => {
+        try {
+          const stored = localStorage.getItem("manager.siteTheme");
+          const theme = stored === "light" || stored === "dark"
+            ? stored
+            : matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+          document.querySelector('meta[name="theme-color"]')?.setAttribute(
+            "content",
+            theme === "light" ? "#f4f6fb" : "#05070d",
+          );
+        } catch {
+          document.documentElement.dataset.theme = "dark";
+        }
+      })();
+    </script>
 
     <title>{title}</title>
     <meta name="description" content={description} />
@@ -82,12 +92,10 @@ const jsonLd = {
     }
 
     <link rel="canonical" href={canonical} />
-    {/* One rendered page, two languages toggled client-side — advertise both locales at the same URL. */}
     <link rel="alternate" hreflang="en" href={canonical} />
     <link rel="alternate" hreflang="fr" href={canonical} />
     <link rel="alternate" hreflang="x-default" href={canonical} />
 
-    {/* Open Graph */}
     <meta property="og:site_name" content="Manager" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={canonical} />
@@ -97,11 +105,10 @@ const jsonLd = {
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:alt" content="Manager — Day counter, focus timer, journal, Dona. Free local-first desktop app." />
+    <meta property="og:image:alt" content="Manager, application desktop de productivité pour Windows et Linux." />
     <meta property="og:locale" content="en_US" />
     <meta property="og:locale:alternate" content="fr_FR" />
 
-    {/* Twitter */}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -109,11 +116,6 @@ const jsonLd = {
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="sitemap" href="/sitemap.xml" />
-
-    {/* Préchargement fontes — à décommenter dès que les .woff2 sont déposés dans /public/fonts/ */}
-    {/* <link rel="preload" href="/fonts/PPEditorialNew-Ultralight.woff2" as="font" type="font/woff2" crossorigin /> */}
-    {/* <link rel="preload" href="/fonts/PPSupplyMono-Regular.woff2"    as="font" type="font/woff2" crossorigin /> */}
-
     <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   </head>
 
@@ -123,12 +125,12 @@ const jsonLd = {
       <span data-lang="fr">Aller au contenu</span>
     </a>
 
-    <Grain />
-    <ScrollProgress />
-    <div class="lang-fixed">
-      <LangToggle variant="solid" />
-    </div>
-    <GithubLink href="https://github.com/JAuxance" />
+    {chrome && (
+      <div class="lang-fixed" aria-label="Display settings / Réglages d’affichage">
+        <ThemeToggle />
+        <LangToggle variant="inline" />
+      </div>
+    )}
 
     <main id="main">
       <slot />

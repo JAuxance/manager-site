@@ -1,96 +1,57 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
-  <!-- Paper background (warm cream, matching the new PNG) -->
-  <rect width="1200" height="630" fill="#f4efe7"/>
-
-  <!-- Subtle grain -->
   <defs>
-    <filter id="grain" x="0" y="0" width="100%" height="100%">
-      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
-      <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.10 0"/>
+    <linearGradient id="background" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#05070d"/>
+      <stop offset="0.56" stop-color="#080b15"/>
+      <stop offset="1" stop-color="#1a2345"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" x2="1">
+      <stop stop-color="#6785ff"/>
+      <stop offset="1" stop-color="#9670ff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="150%" height="170%">
+      <feDropShadow dx="-12" dy="24" stdDeviation="28" flood-color="#000" flood-opacity=".55"/>
     </filter>
+    <pattern id="grid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M64 0H0V64" fill="none" stroke="#fff" stroke-opacity=".025"/>
+    </pattern>
+    <clipPath id="app-clip"><rect x="530" y="138" width="690" height="460" rx="18"/></clipPath>
   </defs>
-  <rect width="1200" height="630" filter="url(#grain)" opacity="0.4"/>
 
-  <!-- ───────── LEFT COLUMN ───────── -->
+  <rect width="1200" height="630" fill="url(#background)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
 
-  <!-- Eyebrow (top-left) -->
-  <text x="60" y="60"
-        font-family="'DejaVu Sans Mono', 'Liberation Mono', monospace"
-        font-size="16" fill="#2a261f" letter-spacing="4" font-weight="500">MANAGERLADGER.COM</text>
-
-  <!-- Logo (4 tally bars + diagonal), scale 1024 → ~96 -->
-  <g transform="translate(60, 200) scale(0.094)">
-    <rect x="288" y="272" width="72" height="480" fill="#2a261f"/>
-    <rect x="416" y="272" width="72" height="480" fill="#2a261f"/>
-    <rect x="544" y="272" width="72" height="480" fill="#2a261f"/>
-    <rect x="672" y="272" width="72" height="480" fill="#2a261f"/>
-    <line x1="232" y1="680" x2="792" y2="420" stroke="#2a261f" stroke-width="48" stroke-linecap="butt"/>
+  <g transform="translate(46 28)">
+    <rect width="42" height="42" rx="12" fill="#0c111b" stroke="#fff" stroke-opacity=".16"/>
+    <g transform="translate(9 9) scale(.024)">
+      <rect x="288" y="272" width="72" height="480" fill="#f7f8ff"/>
+      <rect x="416" y="272" width="72" height="480" fill="#f7f8ff"/>
+      <rect x="544" y="272" width="72" height="480" fill="#f7f8ff"/>
+      <rect x="672" y="272" width="72" height="480" fill="#f7f8ff"/>
+      <line x1="232" y1="680" x2="792" y2="420" stroke="#f7f8ff" stroke-width="48"/>
+    </g>
+    <text x="55" y="28" font-family="Segoe UI, Arial, sans-serif" font-size="18" font-weight="700" fill="#f7f8ff">Manager</text>
   </g>
 
-  <!-- Manager. wordmark (italic serif) — sized to clear the right-column cards -->
-  <text x="60" y="400"
-        font-family="'DejaVu Serif', 'Liberation Serif', 'Times New Roman', serif"
-        font-style="italic" font-weight="400"
-        font-size="140" fill="#2a261f" letter-spacing="-2.5">Manager.</text>
+  <text x="48" y="177" font-family="Consolas, monospace" font-size="12" font-weight="700" letter-spacing="2.2" fill="#9da8bb">LA PRODUCTIVITÉ DESKTOP, SANS LE BRUIT</text>
+  <text x="47" y="266" font-family="Segoe UI, Arial, sans-serif" font-size="66" font-weight="700" letter-spacing="-3.5" fill="#f6f7fc">Ta journée.</text>
+  <text x="47" y="338" font-family="Segoe UI, Arial, sans-serif" font-size="66" font-weight="700" letter-spacing="-3.5" fill="url(#accent)">Enfin claire.</text>
+  <text x="48" y="389" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#a2adbf">Tâches, focus, planning et journal.</text>
+  <text x="48" y="417" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#a2adbf">Une seule application desktop.</text>
 
-  <!-- Tagline -->
-  <text x="60" y="460"
-        font-family="'DejaVu Serif', 'Liberation Serif', 'Times New Roman', serif"
-        font-style="italic" font-weight="300"
-        font-size="36" fill="#7a7165" letter-spacing="-0.5">Count the days. Keep the log.</text>
-
-  <!-- Meta line mono caps -->
-  <text x="60" y="520"
-        font-family="'DejaVu Sans Mono', 'Liberation Mono', monospace"
-        font-size="15" fill="#2a261f" letter-spacing="3.5" font-weight="500">DAY COUNTER · FOCUS TIMER · JOURNAL</text>
-
-  <!-- ───────── RIGHT COLUMN — 3 UI cards ───────── -->
-
-  <!-- Card 1 — DAYS / 1,247 -->
-  <g transform="translate(730, 150)">
-    <rect width="130" height="310" rx="4" fill="#fbf8f3" stroke="#d9d1c2" stroke-width="1"/>
-    <text x="15" y="35"
-          font-family="'DejaVu Sans Mono', 'Liberation Mono', monospace"
-          font-size="11" fill="#9a9080" letter-spacing="2.5" font-weight="500">DAYS</text>
-    <text x="15" y="175"
-          font-family="'DejaVu Serif', 'Liberation Serif', serif"
-          font-style="italic" font-weight="300"
-          font-size="44" fill="#2a261f" letter-spacing="-1">1,247</text>
+  <g transform="translate(48 456)">
+    <rect width="220" height="54" rx="13" fill="url(#accent)"/>
+    <path d="M22 18.5 31 17.5v9.2h-9zm10.6-1.2 10.6-1.2v10.6H32.6zM22 28.3h9v9.2l-9-1zm10.6 0h10.6v10.6l-10.6-1.2z" fill="#fff"/>
+    <text x="58" y="34" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-weight="700" fill="#fff">Télécharger pour PC</text>
   </g>
+  <text x="48" y="548" font-family="Consolas, monospace" font-size="12" font-weight="700" fill="#758197">GRATUIT · WINDOWS 10/11 · LINUX</text>
 
-  <!-- Card 2 — FOCUS / 25:00 (circular ring + play icon) — offset haut + à droite -->
-  <g transform="translate(880, 170)">
-    <rect width="160" height="290" rx="4" fill="#fbf8f3" stroke="#d9d1c2" stroke-width="1"/>
-    <text x="18" y="32"
-          font-family="'DejaVu Sans Mono', 'Liberation Mono', monospace"
-          font-size="11" fill="#9a9080" letter-spacing="2.5" font-weight="500">FOCUS</text>
-    <!-- Circular progress ring (background + arc) -->
-    <circle cx="80" cy="145" r="52" fill="none" stroke="#e8e0d2" stroke-width="2"/>
-    <circle cx="80" cy="145" r="52" fill="none" stroke="#2a261f" stroke-width="2"
-            stroke-dasharray="245 327" transform="rotate(-90 80 145)"/>
-    <!-- Play triangle centered in the ring -->
-    <polygon points="72,134 72,158 93,146" fill="#2a261f"/>
-    <text x="80" y="230" text-anchor="middle"
-          font-family="'DejaVu Sans Mono', 'Liberation Mono', monospace"
-          font-size="14" fill="#2a261f" letter-spacing="1" font-weight="500">25:00</text>
+  <g filter="url(#shadow)">
+    <rect x="530" y="138" width="690" height="460" rx="18" fill="#090b10" stroke="#fff" stroke-opacity=".16"/>
+    <rect x="530" y="138" width="690" height="38" rx="18" fill="#10141d"/>
+    <rect x="530" y="158" width="690" height="18" fill="#10141d"/>
+    <g clip-path="url(#app-clip)">
+      <image href="/screenshots/dashboard.png" x="530" y="176" width="690" height="460" preserveAspectRatio="xMidYMin slice"/>
+    </g>
   </g>
-
-  <!-- Card 3 — JOURNAL (ruled lines) — offset bas + à droite -->
-  <g transform="translate(1060, 185)">
-    <rect width="100" height="260" rx="4" fill="#fbf8f3" stroke="#d9d1c2" stroke-width="1"/>
-    <text x="12" y="30"
-          font-family="'DejaVu Sans Mono', 'Liberation Mono', monospace"
-          font-size="10" fill="#9a9080" letter-spacing="2" font-weight="500">JOURNAL</text>
-    <line x1="12" y1="56" x2="88" y2="56" stroke="#2a261f" stroke-width="1"/>
-    <line x1="12" y1="78" x2="72" y2="78" stroke="#2a261f" stroke-width="1" opacity="0.6"/>
-    <line x1="12" y1="100" x2="82" y2="100" stroke="#2a261f" stroke-width="1" opacity="0.6"/>
-    <line x1="12" y1="122" x2="65" y2="122" stroke="#2a261f" stroke-width="1" opacity="0.6"/>
-    <line x1="12" y1="144" x2="80" y2="144" stroke="#2a261f" stroke-width="1" opacity="0.6"/>
-    <line x1="12" y1="166" x2="70" y2="166" stroke="#2a261f" stroke-width="1" opacity="0.6"/>
-  </g>
-
-  <!-- Bottom-right platforms -->
-  <text x="1140" y="600" text-anchor="end"
-        font-family="'DejaVu Sans Mono', 'Liberation Mono', monospace"
-        font-size="15" fill="#7a7165" letter-spacing="3.5" font-weight="500">WINDOWS · LINUX</text>
 </svg>

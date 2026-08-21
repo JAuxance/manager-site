@@ -1,27 +1,24 @@
 ---
 import Base from "~/layouts/Base.astro";
+import Navigation from "~/components/Navigation.astro";
 import Hero from "~/components/sections/Hero.astro";
-import TheWork from "~/components/sections/TheWork.astro";
-import Focus from "~/components/sections/Focus.astro";
-import Inside from "~/components/sections/Inside.astro";
-import Included from "~/components/sections/Included.astro";
-import YourLog from "~/components/sections/YourLog.astro";
-import GetStarted from "~/components/sections/GetStarted.astro";
-import Changelog from "~/components/sections/Changelog.astro";
+import FeatureRail from "~/components/sections/FeatureRail.astro";
+import ProductOverview from "~/components/sections/ProductOverview.astro";
+import AppTour from "~/components/sections/AppTour.astro";
+import Download from "~/components/sections/Download.astro";
 import SiteFooter from "~/components/sections/SiteFooter.astro";
 ---
 
 <Base
-  title="Manager — Day counter · Focus timer · Journal · Dona"
-  description="Count the days. Keep the log. Free local-first desktop app: day counter, focus timer, daily journal, and Dona — an AI coach that reads your log."
+  title="Manager — Tâches, focus et planning réunis"
+  description="Manager réunit tâches, planning, sessions de focus, progression et journal dans une application desktop calme pour Windows et Linux."
+  chrome={false}
 >
+  <Navigation />
   <Hero />
-  <Inside />
-  <Included />
-  <TheWork />
-  <Focus />
-  <YourLog />
-  <GetStarted />
-  <Changelog />
+  <FeatureRail />
+  <ProductOverview />
+  <AppTour />
+  <Download />
   <SiteFooter />
 </Base>

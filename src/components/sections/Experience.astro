@@ -1,0 +1,58 @@
+<section class="details" aria-labelledby="details-title">
+  <div class="shell details__inner">
+    <header class="details__head" data-appear>
+      <span class="eyebrow"><span data-lang="en">The details that matter</span><span data-lang="fr">Les détails qui comptent</span></span>
+      <h2 id="details-title">
+        <span data-lang="en">Quiet on the surface. <em class="gradient-text">Solid underneath.</em></span>
+        <span data-lang="fr">Calme en surface. <em class="gradient-text">Solide dessous.</em></span>
+      </h2>
+    </header>
+
+    <div class="details__grid">
+      <article data-appear style="--appear-delay: 0ms">
+        <span class="details__num">01</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14v10H5zM9 20h6M12 16v4" /></svg>
+        <h3><span data-lang="en">Local by default</span><span data-lang="fr">Local par défaut</span></h3>
+        <p><span data-lang="en">Tasks, focus history and journal stay on your computer. The account remains optional.</span><span data-lang="fr">Tâches, historique de focus et journal restent sur ton ordinateur. Le compte reste facultatif.</span></p>
+      </article>
+
+      <article data-appear style="--appear-delay: 100ms">
+        <span class="details__num">02</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5h5v5H5zM14 5h5v5h-5zM5 14h5v5H5zM14 14h5v5h-5z" /></svg>
+        <h3><span data-lang="en">One visual language</span><span data-lang="fr">Une seule logique visuelle</span></h3>
+        <p><span data-lang="en">The same hierarchy and feedback carry from the dashboard to the journal.</span><span data-lang="fr">La même hiérarchie et les mêmes retours visuels relient le dashboard au journal.</span></p>
+      </article>
+
+      <article data-appear style="--appear-delay: 200ms">
+        <span class="details__num">03</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 19h14" /></svg>
+        <h3><span data-lang="en">Signed updates</span><span data-lang="fr">Mises à jour signées</span></h3>
+        <p><span data-lang="en">Manager checks new releases and can update directly from inside the application.</span><span data-lang="fr">Manager vérifie les nouvelles versions et peut se mettre à jour depuis l’application.</span></p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .details { padding: clamp(4.5rem, 8vw, 7rem) 0 var(--section-space); }
+  .details__head { display: grid; grid-template-columns: 0.6fr 1fr; gap: 2rem; align-items: end; padding-bottom: clamp(2.4rem, 5vw, 4rem); border-bottom: 1px solid var(--rule); }
+  .details__head h2 { max-width: 15ch; justify-self: end; font-size: clamp(2.25rem, 4.2vw, 4rem); }
+  .details__head h2 em { display: block; font-style: normal; }
+  .details__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .details article { position: relative; min-height: 20rem; padding: clamp(1.5rem, 3.5vw, 2.8rem); border-bottom: 1px solid var(--rule); }
+  .details article + article { border-left: 1px solid var(--rule); }
+  .details__num { position: absolute; top: 1.2rem; right: 1.25rem; color: var(--mute-soft); font-family: var(--font-mono); font-size: 0.6rem; }
+  .details article > svg { width: 2rem; fill: none; stroke: var(--accent); stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.35; transition: transform 500ms var(--ease-out); }
+  .details article:hover > svg { transform: translateY(-0.3rem) rotate(-3deg); }
+  .details h3 { margin-top: 4.8rem; font-size: clamp(1.35rem, 2vw, 1.8rem); }
+  .details p { max-width: 25rem; margin-top: 0.8rem; color: var(--mute); font-size: 0.8rem; line-height: 1.65; }
+
+  @media (max-width: 760px) {
+    .details__head { grid-template-columns: 1fr; }
+    .details__head h2 { justify-self: start; }
+    .details__grid { grid-template-columns: 1fr; }
+    .details article { min-height: 0; }
+    .details article + article { border-top: 0; border-left: 0; }
+    .details h3 { margin-top: 2.8rem; }
+  }
+</style>

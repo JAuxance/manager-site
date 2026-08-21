@@ -1,0 +1,83 @@
+---
+import LangToggle from "~/components/LangToggle.astro";
+import ThemeToggle from "~/components/ThemeToggle.astro";
+import { getLatestRelease } from "~/lib/releases";
+
+const release = await getLatestRelease();
+---
+
+<header class="nav" data-site-nav>
+  <div class="nav__inner theme-surface">
+    <a class="nav__brand" href="#top" aria-label="Manager — accueil">
+      <span class="nav__mark">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3v16M10 3v16M14 3v16M18 3v16M3 17l18-7" /></svg>
+      </span>
+      <span>Manager</span>
+    </a>
+
+    <nav class="nav__links" aria-label="Navigation">
+      <a href="#features"><span data-lang="en">Features</span><span data-lang="fr">Fonctionnalités</span></a>
+      <a href="#overview"><span data-lang="en">Overview</span><span data-lang="fr">Aperçu</span></a>
+      <a href="#experience"><span data-lang="en">Experience</span><span data-lang="fr">Expérience</span></a>
+    </nav>
+
+    <div class="nav__actions">
+      <ThemeToggle />
+      <div class="nav__language"><LangToggle variant="inline" /></div>
+      <a class="nav__download button-shine" href={release.winUrl} aria-label="Download Manager for PC / Télécharger Manager pour PC">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 4.8 10.7 4v7.4H3.5zm8.5-1 8.5-1v8.6H12zM3.5 12.7h7.2V20l-7.2-.8zm8.5 0h8.5v8.5l-8.5-1z" /></svg>
+        <span><span data-lang="en">Download for PC</span><span data-lang="fr">Télécharger PC</span></span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .nav { position: fixed; inset: 0 0 auto; z-index: var(--z-ui); padding: 1rem var(--gutter); pointer-events: none; }
+  .nav__inner {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    width: min(100%, var(--col-max));
+    min-height: 3.65rem;
+    margin-inline: auto;
+    padding: 0.35rem 0.45rem 0.35rem 0.6rem;
+    border: 1px solid transparent;
+    border-radius: 1rem;
+    pointer-events: auto;
+    transition: background var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+  }
+
+  .nav.is-scrolled .nav__inner { border-color: var(--rule); background: var(--nav-glass); box-shadow: 0 0.75rem 3rem rgb(0 0 0 / 0.12); backdrop-filter: blur(18px) saturate(135%); }
+  .nav__brand { display: inline-flex; align-items: center; justify-self: start; gap: 0.72rem; font-size: 1rem; font-weight: 750; letter-spacing: -0.025em; }
+  .nav__mark { display: grid; width: 2.45rem; aspect-ratio: 1; place-items: center; border: 1px solid var(--rule-strong); border-radius: 0.78rem; background: var(--surface-glass); box-shadow: 0 0.7rem 2rem rgb(0 0 0 / 0.08); }
+  .nav__mark svg { width: 1.22rem; fill: none; stroke: currentColor; stroke-width: 1.8; }
+  .nav__links { display: flex; align-items: center; gap: clamp(1.4rem, 2.7vw, 2.5rem); }
+  .nav__links a { position: relative; padding: 0.7rem 0; color: var(--mute); font-size: 0.78rem; font-weight: 650; transition: color var(--dur-fast) var(--ease-out); }
+  .nav__links a::after { content: ""; position: absolute; right: 0; bottom: 0.48rem; left: 0; height: 1px; background: var(--accent); transform: scaleX(0); transform-origin: right; transition: transform var(--dur-base) var(--ease-out); }
+  .nav__links a:hover { color: var(--ink); }
+  .nav__links a:hover::after { transform: scaleX(1); transform-origin: left; }
+  .nav__actions { display: flex; align-items: center; justify-self: end; gap: 0.45rem; }
+  .nav__download { display: inline-flex; align-items: center; gap: 0.65rem; min-height: 2.72rem; margin-left: 0.25rem; padding: 0.72rem 1rem; border: 1px solid rgb(255 255 255 / 0.1); border-radius: 999px; background: var(--inverse); color: var(--inverse-ink); font-size: 0.75rem; font-weight: 750; box-shadow: 0 0.8rem 2.5rem rgb(0 0 0 / 0.16); transition: transform var(--dur-press) var(--ease-out), background var(--dur-fast) var(--ease-out); }
+  .nav__download:hover { background: linear-gradient(105deg, #526fff, #8264f2); }
+  .nav__download:active { transform: scale(0.97); }
+  .nav__download svg { width: 1rem; fill: currentColor; }
+
+  @media (max-width: 880px) {
+    .nav__inner { grid-template-columns: 1fr auto; }
+    .nav__links { display: none; }
+  }
+
+  @media (max-width: 570px) {
+    .nav { padding: 0.65rem 0.7rem; }
+    .nav__inner { min-height: 3.25rem; padding: 0.25rem 0.3rem 0.25rem 0.4rem; }
+    .nav__mark { width: 2.25rem; }
+    .nav__language { display: none; }
+    .nav__download { width: 2.55rem; min-height: 2.55rem; padding: 0; justify-content: center; }
+    .nav__download > span { display: none; }
+  }
+
+  @media (max-width: 370px) {
+    .nav__brand > span:last-child { display: none; }
+  }
+</style>

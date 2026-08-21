@@ -1,0 +1,101 @@
+---
+import ProductWindow from "~/components/ProductWindow.astro";
+---
+
+<section class="organization" aria-labelledby="organization-title">
+  <div class="shell organization__inner">
+    <header class="organization__head" data-appear>
+      <span class="eyebrow">
+        <span data-lang="en">02 · Organize</span>
+        <span data-lang="fr">02 · Organiser</span>
+      </span>
+      <h2 class="section-title" id="organization-title">
+        <span data-lang="en">The day on one side. The week on the other.</span>
+        <span data-lang="fr">Le jour d’un côté. La semaine de l’autre.</span>
+      </h2>
+    </header>
+
+    <div class="organization__copy" data-appear>
+      <p>
+        <span data-lang="en">Set priorities for today or tomorrow. Repeat what needs to become routine. Then give each important block a real place in the week.</span>
+        <span data-lang="fr">Pose les priorités d’aujourd’hui ou de demain. Répète ce qui doit devenir une habitude. Puis donne une vraie place aux blocs importants dans la semaine.</span>
+      </p>
+      <ul>
+        <li><span data-lang="en">Today and tomorrow views</span><span data-lang="fr">Vues aujourd’hui et demain</span></li>
+        <li><span data-lang="en">Priorities and daily repetition</span><span data-lang="fr">Priorités et répétition quotidienne</span></li>
+        <li><span data-lang="en">Reusable weekly schedule</span><span data-lang="fr">Planning hebdomadaire réutilisable</span></li>
+      </ul>
+    </div>
+
+    <div class="organization__scene" data-appear>
+      <div class="organization__tasks">
+        <ProductWindow
+          src="/screenshots/tasks.png"
+          altEn="Manager Tasks screen with five realistic tasks, completion progress, priorities and recurring tasks."
+          altFr="Écran Tâches de Manager avec cinq tâches, la progression, les priorités et une tâche récurrente."
+        />
+      </div>
+      <div class="organization__schedule">
+        <ProductWindow
+          src="/screenshots/schedule.png"
+          altEn="Manager weekly Schedule screen with coloured work blocks arranged through the day."
+          altFr="Planning hebdomadaire de Manager avec des blocs de travail colorés répartis dans la journée."
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .organization { padding: var(--section-space) 0; overflow: clip; }
+
+  .organization__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(18rem, 0.65fr);
+    gap: clamp(2.5rem, 8vw, 8rem);
+    align-items: end;
+  }
+
+  .organization__copy { padding-bottom: 0.4rem; }
+  .organization__copy p { color: var(--mute); font-size: clamp(1rem, 1.4vw, 1.2rem); line-height: 1.65; }
+
+  .organization__copy ul {
+    display: grid;
+    gap: 0.8rem;
+    margin-top: 1.8rem;
+  }
+
+  .organization__copy li {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: var(--ink-warm);
+    font-size: 0.86rem;
+  }
+
+  .organization__copy li::before {
+    content: "";
+    width: 0.35rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 0.22rem var(--accent-soft);
+  }
+
+  .organization__scene {
+    position: relative;
+    grid-column: 1 / -1;
+    min-height: clamp(32rem, 64vw, 56rem);
+    margin-top: clamp(2rem, 5vw, 4rem);
+  }
+
+  .organization__tasks { position: absolute; top: 0; left: 0; width: min(76%, 60rem); }
+  .organization__schedule { position: absolute; right: -4%; bottom: 0; width: min(72%, 58rem); }
+  .organization__schedule :global(.product-window) { box-shadow: -2rem 2rem 6rem rgb(0 0 0 / 0.55); }
+
+  @media (max-width: 850px) {
+    .organization__inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .organization__scene { grid-column: auto; display: grid; gap: 1.5rem; min-height: 0; margin-top: 0; }
+    .organization__tasks, .organization__schedule { position: relative; inset: auto; width: 100%; }
+  }
+</style>

@@ -1,0 +1,99 @@
+---
+import ProductWindow from "~/components/ProductWindow.astro";
+---
+
+<section class="journal" aria-labelledby="journal-title">
+  <div class="journal__wash" aria-hidden="true"></div>
+  <div class="shell journal__inner">
+    <header class="journal__head" data-appear>
+      <span class="eyebrow">
+        <span data-lang="en">03 · Reflect</span>
+        <span data-lang="fr">03 · Prendre du recul</span>
+      </span>
+      <h2 class="section-title" id="journal-title">
+        <span data-lang="en">A day deserves more than a checked box.</span>
+        <span data-lang="fr">Une journée mérite mieux qu’une case cochée.</span>
+      </h2>
+      <p class="section-copy">
+        <span data-lang="en">Leave a few honest lines, choose the mood that fits, and keep a trace of what worked—or what needs to change tomorrow.</span>
+        <span data-lang="fr">Laisse quelques lignes sincères, choisis l’humeur qui correspond, et garde une trace de ce qui a tenu — ou de ce qui devra changer demain.</span>
+      </p>
+    </header>
+
+    <blockquote class="journal__quote" data-appear>
+      <p>
+        <span data-lang="en">“A precise day. The screens are beginning to tell one coherent story, without trying too hard.”</span>
+        <span data-lang="fr">« Une journée précise. Les écrans commencent à raconter une histoire cohérente, sans en faire trop. »</span>
+      </p>
+      <footer>
+        <span data-lang="en">A Thursday evening</span>
+        <span data-lang="fr">Un jeudi soir</span>
+      </footer>
+    </blockquote>
+
+    <div class="journal__product" data-appear>
+      <ProductWindow
+        src="/screenshots/journal.png"
+        altEn="Manager Journal screen with a writing area, mood selection and three previous entries."
+        altFr="Journal de Manager avec une zone d’écriture, le choix de l’humeur et trois entrées précédentes."
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .journal {
+    position: relative;
+    padding: var(--section-space) 0;
+    overflow: clip;
+  }
+
+  .journal__wash {
+    position: absolute;
+    top: 3rem;
+    left: -24rem;
+    z-index: -1;
+    width: 60rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgb(111 91 156 / 0.16), transparent 67%);
+    filter: blur(2rem);
+  }
+
+  .journal__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(18rem, 0.65fr);
+    gap: clamp(3rem, 9vw, 9rem);
+    align-items: end;
+  }
+
+  .journal__quote {
+    margin: 0 0 0.5rem;
+    padding-left: clamp(1.4rem, 3vw, 2.4rem);
+    border-left: 1px solid var(--rule-strong);
+  }
+
+  .journal__quote p {
+    color: #c5cada;
+    font-family: var(--font-serif);
+    font-size: clamp(1.35rem, 2.5vw, 2rem);
+    font-style: italic;
+    line-height: 1.45;
+  }
+
+  .journal__quote footer {
+    margin-top: 1rem;
+    color: var(--mute-soft);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .journal__product { grid-column: 1 / -1; margin-top: clamp(1.5rem, 4vw, 3rem); }
+
+  @media (max-width: 820px) {
+    .journal__inner { grid-template-columns: 1fr; gap: 2.5rem; }
+    .journal__product { grid-column: auto; }
+  }
+</style>

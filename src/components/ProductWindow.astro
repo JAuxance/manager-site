@@ -1,0 +1,96 @@
+---
+interface Props {
+  src: string;
+  altEn: string;
+  altFr: string;
+  label?: string;
+  eager?: boolean;
+  class?: string;
+  captionId?: string;
+}
+
+const {
+  src,
+  altEn,
+  altFr,
+  label = "Manager",
+  eager = false,
+  class: className = "",
+  captionId: customCaptionId,
+} = Astro.props;
+
+const captionId = customCaptionId ?? `capture-${src.replace(/[^a-z0-9]/gi, "-")}`;
+---
+
+<figure
+  class:list={["product-window", className]}
+  data-product-window
+  aria-labelledby={captionId}
+>
+  <div class="product-window__bar" aria-hidden="true">
+    <span class="product-window__identity">
+      <svg viewBox="0 0 24 24"><path d="M6 3v16M10 3v16M14 3v16M18 3v16M3 17l18-7" /></svg>
+      <span>{label}</span>
+    </span>
+    <span class="product-window__controls"><i></i><i></i><i></i></span>
+  </div>
+  <div class="product-window__media">
+    <img
+      src={src}
+      alt=""
+      width="2160"
+      height="1440"
+      loading={eager ? "eager" : "lazy"}
+      decoding="async"
+      fetchpriority={eager ? "high" : "auto"}
+    />
+  </div>
+  <figcaption class="visually-hidden" id={captionId}>
+    <span data-lang="en">{altEn}</span>
+    <span data-lang="fr">{altFr}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .product-window {
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    border: 1px solid rgb(255 255 255 / 0.15);
+    border-radius: clamp(0.75rem, 1.5vw, 1.35rem);
+    background: #080a0f;
+    box-shadow:
+      0 2rem 6rem rgb(0 0 0 / 0.42),
+      0 0 0 1px rgb(255 255 255 / 0.025) inset;
+  }
+
+  .product-window__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: clamp(2rem, 3vw, 2.75rem);
+    padding-inline: clamp(0.65rem, 1.5vw, 1rem);
+    border-bottom: 1px solid rgb(255 255 255 / 0.075);
+    background: #0e1119;
+  }
+
+  .product-window__identity { display: inline-flex; align-items: center; gap: 0.5rem; color: #a2aabc; font-size: clamp(0.52rem, 0.8vw, 0.68rem); font-weight: 700; }
+  .product-window__identity svg { width: 0.82rem; fill: none; stroke: #dce2ef; stroke-width: 1.8; }
+  .product-window__controls { display: flex; align-items: center; gap: clamp(0.45rem, 1vw, 0.85rem); }
+  .product-window__controls i { position: relative; display: block; width: 0.65rem; height: 0.65rem; opacity: 0.62; }
+  .product-window__controls i:first-child::after { content: ""; position: absolute; inset: auto 0 0.15rem; height: 1px; background: #a6adba; }
+  .product-window__controls i:nth-child(2) { border: 1px solid #a6adba; transform: scale(0.72); }
+  .product-window__controls i:last-child::before,
+  .product-window__controls i:last-child::after { content: ""; position: absolute; top: 50%; left: 0; width: 100%; height: 1px; background: #a6adba; }
+  .product-window__controls i:last-child::before { transform: rotate(45deg); }
+  .product-window__controls i:last-child::after { transform: rotate(-45deg); }
+
+  .product-window__media { aspect-ratio: 3 / 2; background: #080a0e; }
+  .product-window__media img { width: 100%; height: 100%; object-fit: cover; }
+
+  @media (max-width: 620px) {
+    .product-window__bar { height: 1.9rem; }
+    .product-window__identity span { display: none; }
+    .product-window__controls { gap: 0.35rem; transform: scale(0.78); transform-origin: right; }
+  }
+</style>

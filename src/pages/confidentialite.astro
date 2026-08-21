@@ -1,7 +1,7 @@
 ---
 import Base from "~/layouts/Base.astro";
 
-const LAST_UPDATE = "2026-04-22";
+const LAST_UPDATE = "2026-08-21";
 ---
 
 <Base
@@ -43,7 +43,7 @@ const LAST_UPDATE = "2026-04-22";
           <li>No analytics (no Google Analytics, no Plausible, no pixels, no tracking).</li>
           <li>No contact form, no newsletter, no account — we cannot collect what we don't ask.</li>
           <li>Fonts are self-hosted (no Google Fonts).</li>
-          <li>Your language preference (EN / FR) is remembered in your browser's localStorage. That stays on your machine.</li>
+          <li>Your language and color-theme preferences are remembered in your browser's localStorage. They stay on your machine.</li>
           <li>This is a static site. The desktop app <strong>Manager</strong> has its own privacy behavior — described in its own documentation.</li>
         </ul>
         <ul class="legal__list" data-lang="fr">
@@ -51,7 +51,7 @@ const LAST_UPDATE = "2026-04-22";
           <li>Aucune analytics (pas de Google Analytics, pas de Plausible, aucun pixel, aucun traçage).</li>
           <li>Aucun formulaire de contact, aucune newsletter, aucun compte — on ne peut pas collecter ce qu'on ne demande pas.</li>
           <li>Les fontes sont hébergées en propre (pas de Google Fonts).</li>
-          <li>Ta préférence de langue (EN / FR) est stockée en local (localStorage du navigateur). Elle reste sur ta machine.</li>
+          <li>Tes préférences de langue et de thème clair/sombre sont stockées dans le localStorage du navigateur. Elles restent sur ta machine.</li>
           <li>C'est un site statique. L'app desktop <strong>Manager</strong> a sa propre politique, détaillée dans sa documentation.</li>
         </ul>
       </section>
@@ -106,8 +106,8 @@ const LAST_UPDATE = "2026-04-22";
           </div>
 
           <div class="legal__row" role="row">
-            <span role="cell" data-lang="en">Language preference (<code>lang</code>: "en" | "fr")</span>
-            <span role="cell" data-lang="fr">Préférence de langue (<code>lang</code> : « en » | « fr »)</span>
+            <span role="cell" data-lang="en">Language and color-theme preferences (<code>manager.lang</code>, <code>manager.siteTheme</code>)</span>
+            <span role="cell" data-lang="fr">Préférences de langue et de thème (<code>manager.lang</code>, <code>manager.siteTheme</code>)</span>
             <span role="cell" data-lang="en">Your browser's localStorage</span>
             <span role="cell" data-lang="fr">localStorage de ton navigateur</span>
             <span role="cell" data-lang="en">Until you clear browser storage</span>
@@ -124,10 +124,10 @@ const LAST_UPDATE = "2026-04-22";
           <span data-lang="fr">Finalités et base légale</span>
         </h2>
         <p data-lang="en">
-          The server logs are processed to deliver the site, ensure its security (anti-abuse, rate-limiting) and diagnose incidents. Legal basis: legitimate interest (GDPR art. 6-1-f). The language preference stored in localStorage is a strictly necessary user preference (CNIL guidance: exempt from consent).
+          The server logs are processed to deliver the site, ensure its security (anti-abuse, rate-limiting) and diagnose incidents. Legal basis: legitimate interest (GDPR art. 6-1-f). The language and color-theme preferences stored in localStorage are strictly necessary user preferences (CNIL guidance: exempt from consent).
         </p>
         <p data-lang="fr">
-          Les logs serveurs sont traités pour diffuser le site, assurer sa sécurité (anti-abus, rate-limiting) et diagnostiquer les incidents. Base légale : intérêt légitime (RGPD art. 6-1-f). La préférence de langue stockée en localStorage est une préférence utilisateur strictement nécessaire (recommandation CNIL : exemptée de consentement).
+          Les logs serveurs sont traités pour diffuser le site, assurer sa sécurité (anti-abus, rate-limiting) et diagnostiquer les incidents. Base légale : intérêt légitime (RGPD art. 6-1-f). Les préférences de langue et de thème stockées en localStorage sont strictement nécessaires au choix de l’utilisateur (recommandation CNIL : exemptées de consentement).
         </p>
       </section>
 
@@ -168,10 +168,10 @@ const LAST_UPDATE = "2026-04-22";
         <span class="legal__num">Nº 06</span>
         <h2 class="legal__h2">Cookies</h2>
         <p data-lang="en">
-          This site uses <strong>no cookies</strong>. The only client-side storage is one localStorage key (<code>lang</code>) holding your EN/FR toggle. Since this is strictly a user-preference store, no consent banner is required.
+          This site uses <strong>no cookies</strong>. Two localStorage keys hold your preferences: <code>manager.lang</code> for EN/FR and <code>manager.siteTheme</code> for light/dark mode. Since these are strictly user-preference stores, no consent banner is required.
         </p>
         <p data-lang="fr">
-          Ce site n'utilise <strong>aucun cookie</strong>. Le seul stockage côté navigateur est une clé localStorage (<code>lang</code>) qui mémorise ton choix EN/FR. Comme il s'agit strictement d'une préférence utilisateur, aucun bandeau de consentement n'est requis.
+          Ce site n'utilise <strong>aucun cookie</strong>. Deux clés localStorage mémorisent tes préférences : <code>manager.lang</code> pour EN/FR et <code>manager.siteTheme</code> pour le mode clair/sombre. Comme il s’agit uniquement de préférences utilisateur, aucun bandeau de consentement n’est requis.
         </p>
       </section>
 

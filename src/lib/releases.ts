@@ -16,7 +16,7 @@ const API_URL = `https://api.github.com/repos/${REPO}/releases/latest`;
 /* Fallback figé — utilisé si l'API est HS au moment du build.
    Mettre à jour ici uniquement si on publie une release majeure et que le
    réseau CI est KO — sinon, l'API prend le relais toute seule. */
-const FALLBACK_VERSION = "1.8.3";
+const FALLBACK_VERSION = "1.8.5";
 const FALLBACK_BASE = `https://github.com/${REPO}/releases/download/v${FALLBACK_VERSION}`;
 const FALLBACK: ReleaseInfo = {
   version: FALLBACK_VERSION,
@@ -24,6 +24,10 @@ const FALLBACK: ReleaseInfo = {
   winSigUrl: `${FALLBACK_BASE}/Manager_${FALLBACK_VERSION}_x64-setup.exe.sig`,
   debUrl: `${FALLBACK_BASE}/Manager_${FALLBACK_VERSION}_amd64.deb`,
   debSigUrl: `${FALLBACK_BASE}/Manager_${FALLBACK_VERSION}_amd64.deb.sig`,
+  rpmUrl: `${FALLBACK_BASE}/Manager-${FALLBACK_VERSION}-1.x86_64.rpm`,
+  rpmSigUrl: `${FALLBACK_BASE}/Manager-${FALLBACK_VERSION}-1.x86_64.rpm.sig`,
+  appImageUrl: `${FALLBACK_BASE}/Manager_${FALLBACK_VERSION}_amd64.AppImage`,
+  appImageSigUrl: `${FALLBACK_BASE}/Manager_${FALLBACK_VERSION}_amd64.AppImage.sig`,
   macUrl: null,
   htmlUrl: `https://github.com/${REPO}/releases/latest`,
   stale: true,
@@ -37,6 +41,10 @@ export interface ReleaseInfo {
   debUrl: string;
   /** Minisign signature for the .deb (null if API didn't publish one). */
   debSigUrl: string | null;
+  rpmUrl: string;
+  rpmSigUrl: string | null;
+  appImageUrl: string;
+  appImageSigUrl: string | null;
   macUrl: string | null;
   htmlUrl: string;
   /** true si on sert le fallback (API injoignable). */
@@ -137,6 +145,10 @@ async function fetchLatest(): Promise<ReleaseInfo> {
       winSigUrl: find(/\.exe\.sig$/i),
       debUrl: find(/\.deb$/i) ?? FALLBACK.debUrl,
       debSigUrl: find(/\.deb\.sig$/i),
+      rpmUrl: find(/\.rpm$/i) ?? FALLBACK.rpmUrl,
+      rpmSigUrl: find(/\.rpm\.sig$/i),
+      appImageUrl: find(/\.AppImage$/i) ?? FALLBACK.appImageUrl,
+      appImageSigUrl: find(/\.AppImage\.sig$/i),
       macUrl: find(/\.(dmg|app\.tar\.gz)$/i),
       htmlUrl: data.html_url,
       stale: false,

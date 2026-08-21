@@ -1,29 +1,45 @@
 html {
   background: var(--paper);
   color: var(--ink);
-  font-family: var(--font-mono);
+  font-family: var(--font-body);
   font-size: 16px;
-  font-weight: 400;
-  letter-spacing: var(--tracking-mono);
-  -webkit-text-size-adjust: 100%;
-  scroll-behavior: auto;          /* Lenis prend le relais */
-  /* Pas de faux-italique / faux-bold synthétisés par le fallback */
   font-synthesis: none;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+  scrollbar-color: var(--mute-soft) var(--paper);
+  -webkit-text-size-adjust: 100%;
 }
 
-html.lenis, html.lenis body { height: auto; }
-.lenis.lenis-smooth { scroll-behavior: auto !important; }
-.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-.lenis.lenis-stopped { overflow: clip; }
-
 body {
-  position: relative; /* ancre les badges top-left/right en absolute */
   min-height: 100dvh;
-  font-size: var(--text-base);
   overflow-x: clip;
+  background:
+    radial-gradient(70rem 42rem at 52% -14rem, var(--body-glow), transparent 70%),
+    var(--paper);
+  color: var(--ink);
+  font-size: var(--text-base);
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: var(--noise-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
+  mix-blend-mode: soft-light;
+}
+
+html.theme-transition,
+html.theme-transition body,
+html.theme-transition .nav,
+html.theme-transition .theme-surface {
+  transition:
+    background-color 420ms var(--ease-out),
+    border-color 420ms var(--ease-out),
+    color 260ms var(--ease-out),
+    box-shadow 420ms var(--ease-out);
 }
 
 ::selection {
@@ -31,246 +47,78 @@ body {
   color: var(--accent-ink);
 }
 
-/* Display par défaut sur les headings */
 h1, h2, h3 {
   font-family: var(--font-display);
-  font-weight: 200;
+  font-weight: 600;
   letter-spacing: var(--tracking-tight);
   line-height: var(--leading-display);
+  text-wrap: balance;
 }
 
-h4, h5, h6 {
-  font-family: var(--font-mono);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: var(--tracking-caps);
-  font-size: var(--text-xs);
-}
+p { text-wrap: pretty; }
 
-/* i18n — masque la langue inactive.
-   Usage : <span data-lang="en">…</span><span data-lang="fr">…</span> */
-html[lang="en"] [data-lang="fr"] { display: none; }
-html[lang="fr"] [data-lang="en"] { display: none; }
+html[lang="en"] [data-lang="fr"] { display: none !important; }
+html[lang="fr"] [data-lang="en"] { display: none !important; }
 
-/* Lang toggle top-left — absolute (pas fixed) : reste avec le hero,
-   sort du viewport au scroll comme le reste du contenu. */
-.lang-fixed {
-  position: absolute;
-  top: var(--space-4);
-  left: var(--space-4);
-  z-index: var(--z-ui);
-  padding: var(--space-3) var(--space-4);
-  background: var(--ink);
-  color: var(--paper);
-  display: inline-flex;
-  align-items: center;
-  transition: background var(--dur-fast) var(--ease-out);
-}
-.lang-fixed:hover { background: var(--ink-warm); }
-
-/* Flash-guard — cache les badges fixed en haut tant que hero.ts n'a pas
-   posé leur état initial (y: -16, opacity: 0) puis ajouté .is-ready.
-   Évite un flash à la position finale pendant le load. */
-.lang-fixed:not(.is-ready),
-.gh:not(.is-ready) {
-  opacity: 0;
-}
-@media (prefers-reduced-motion: reduce) {
-  .lang-fixed, .gh { opacity: 1 !important; }
-}
-
-/* Focus visible global — clavier uniquement */
 :focus { outline: none; }
 :focus-visible {
-  outline: 1px solid var(--ink);
-  outline-offset: 3px;
-  border-radius: 1px;
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+  border-radius: 0.2rem;
 }
 
-/* Skip-link — caché sauf au focus clavier */
 .skip-link {
   position: fixed;
-  top: var(--space-2);
-  left: var(--space-2);
+  top: var(--space-3);
+  left: var(--space-3);
   z-index: 100;
-  padding: var(--space-3) var(--space-4);
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-sm);
   background: var(--ink);
   color: var(--paper);
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-  font-weight: 500;
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  text-decoration: none;
-  transform: translateY(-200%);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  transform: translateY(-180%);
   transition: transform var(--dur-base) var(--ease-out);
 }
-.skip-link:focus-visible {
-  transform: translateY(0);
-  outline: 1px solid var(--paper);
-  outline-offset: 2px;
-}
 
-/* ============================================================================
-   Download toast — affiché après un clic sur .exe ou .deb. Auto-dismiss 9s.
-   Structure : title · filename (mono) · steps (ol).
-   Positionné bottom-right, hors du flux. CSS only, JS toggle .is-show.
-   ========================================================================= */
-.dl-toast {
+.skip-link:focus-visible { transform: translateY(0); }
+
+.lang-fixed {
   position: fixed;
-  bottom: var(--space-4);
+  top: var(--space-4);
   right: var(--space-4);
-  z-index: 110;
+  z-index: var(--z-ui);
   display: flex;
-  align-items: flex-start;
-  gap: var(--space-3);
-  width: min(460px, calc(100vw - 2rem));
-  padding: var(--space-4) var(--space-5, 1.25rem) var(--space-4) var(--space-4);
-  background: var(--ink);
-  color: var(--paper);
-  border-left: 2px solid var(--accent);
-  box-shadow: 0 18px 48px -16px oklch(0% 0 0 / 0.45);
-  transform: translateY(20px);
-  opacity: 0;
-  pointer-events: none;
-  transition:
-    transform var(--dur-base) var(--ease-editorial),
-    opacity var(--dur-base) var(--ease-out);
-}
-.dl-toast.is-show {
-  transform: translateY(0);
-  opacity: 1;
-  pointer-events: auto;
-}
-
-.dl-toast__dot {
-  flex-shrink: 0;
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--accent);
-  margin-top: 8px;
-  animation: dl-toast-pulse 1.4s ease-out 2;
-}
-@keyframes dl-toast-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 var(--accent-soft); }
-  50%      { box-shadow: 0 0 0 6px transparent; }
-}
-
-.dl-toast__body {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-  line-height: 1.4;
-  font-family: var(--font-mono);
-  font-size: var(--text-xs);
-}
-
-.dl-toast__head {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--space-3);
-}
-
-.dl-toast__title {
-  font-weight: 500;
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  color: var(--paper);
-  font-size: 11px;
-}
-
-.dl-toast__file {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-style: normal;
-  letter-spacing: 0;
-  color: var(--accent);
-  padding: 4px 8px;
-  background: oklch(0% 0 0 / 0.3);
-  border-left: 1px solid var(--accent);
-  word-break: break-all;
-  line-height: 1.45;
-  align-self: stretch;
-}
-
-.dl-toast__steps {
-  list-style: none;
-  counter-reset: dl-step;
-  padding: 0;
-  margin: var(--space-1) 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-.dl-toast__steps li {
-  counter-increment: dl-step;
-  position: relative;
-  padding-left: 22px;
-  font-size: 11px;
-  letter-spacing: 0.02em;
-  line-height: 1.55;
-  color: oklch(from var(--paper) l c h / 0.78);
-}
-.dl-toast__steps li::before {
-  content: counter(dl-step);
-  position: absolute;
-  left: 0;
-  top: 0;
-  font-family: var(--font-mono);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0;
-  color: var(--accent);
-  border: 1px solid var(--accent);
-  width: 15px;
-  height: 15px;
-  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  line-height: 1;
+  gap: 0.25rem;
+  padding: 0.2rem;
+  border: 1px solid var(--rule);
   border-radius: 999px;
-}
-.dl-toast__steps li em {
-  font-style: normal;
-  color: var(--paper);
-  font-weight: 500;
-  background: oklch(from var(--paper) l c h / 0.08);
-  padding: 1px 5px;
+  background: var(--surface-glass);
+  backdrop-filter: blur(16px);
 }
 
-.dl-toast__close {
-  flex-shrink: 0;
-  background: transparent;
-  border: 0;
-  color: oklch(from var(--paper) l c h / 0.55);
-  font-size: 20px;
-  line-height: 1;
-  cursor: pointer;
-  padding: 0 2px;
-  margin: -4px -4px -4px 0;
-  transition: color var(--dur-fast) var(--ease-out);
+html.js [data-appear] {
+  --appear-x: 0rem;
+  --appear-y: 1.5rem;
+  opacity: 0;
+  transform: translate3d(var(--appear-x), var(--appear-y), 0);
+  transition:
+    opacity 800ms var(--ease-out),
+    transform 800ms var(--ease-out);
+  transition-delay: var(--appear-delay, 0ms);
 }
-.dl-toast__close:hover { color: var(--paper); }
-.dl-toast__close:focus-visible {
-  outline: 1px solid var(--accent);
-  outline-offset: 2px;
+
+[data-appear="left"] { --appear-x: -1.5rem; --appear-y: 0rem; }
+[data-appear="right"] { --appear-x: 1.5rem; --appear-y: 0rem; }
+
+html.js [data-appear].is-visible {
+  opacity: 1;
+  transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .dl-toast { transition: opacity var(--dur-fast) var(--ease-out); transform: none; }
-  .dl-toast__dot { animation: none; }
-}
-
-@media (max-width: 560px) {
-  .dl-toast {
-    left: var(--space-4);
-    right: var(--space-4);
-    width: auto;
-    bottom: var(--space-3);
-  }
+  html { scroll-behavior: auto; }
+  [data-appear] { opacity: 1; transform: none; transition: none; }
 }
